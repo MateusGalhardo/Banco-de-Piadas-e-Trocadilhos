@@ -1,0 +1,664 @@
+﻿unit uCadPiadas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Mask, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  RxCurrEdit, Vcl.DBCtrls, RxToolEdit, cCadPiadas, System.IniFiles, Xml.XMLDoc, Xml.XMLIntf, PngSpeedButton, PngBitBtn;
+
+type
+  TcadPiadas = class(TForm)
+    pnlRodape: TPanel;
+    btnNovo: TBitBtn;
+    btnAlterar: TBitBtn;
+    btnCancelar: TBitBtn;
+    btnGravar: TBitBtn;
+    btnApagar: TBitBtn;
+    pgcPrincipal: TPageControl;
+    tsListagem: TTabSheet;
+    pnlListagemTopo: TPanel;
+    mskPesquisar: TMaskEdit;
+    grdPiadas: TDBGrid;
+    tsManutencao: TTabSheet;
+    QryPiadas: TFDQuery;
+    dsPiadas: TDataSource;
+    btnSair: TBitBtn;
+    edtPiadaId: TLabeledEdit;
+    edtTipo: TEdit;
+    lbl1: TLabel;
+    edtCategoria: TEdit;
+    lbl2: TLabel;
+    lkpClassificacao: TDBLookupComboBox;
+    lbl3: TLabel;
+    QryClassificacoes: TFDQuery;
+    dsClassificacoes: TDataSource;
+    f1QryClassificacoesId: TFDAutoIncField;
+    QryClassificacoesclassificacao: TWideStringField;
+    edtPiada: TMemo;
+    lbl4: TLabel;
+    edtPesTipo: TEdit;
+    edtPesCategoria: TEdit;
+    dlgAbrirPasta: TOpenDialog;
+    f1QryPiadaspiadaId: TFDAutoIncField;
+    QryPiadastexto: TWideStringField;
+    QryPiadascategoria: TWideStringField;
+    QryPiadastipo: TWideStringField;
+    QryPiadasdataPiada: TSQLTimeStampField;
+    QryPiadasclassificacao: TWideStringField;
+    btnPesquisar: TPngBitBtn;
+    btnImportar: TPngBitBtn;
+    btnExportar: TPngBitBtn;
+    btnLimpar: TPngBitBtn;
+    dlgSalvarPasta: TSaveDialog;
+    lblIndice: TLabel;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure grdPiadasDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
+    procedure btnApagarClick(Sender: TObject);
+    procedure mskPesquisarChange(Sender: TObject);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+    procedure grdPiadasDblClick(Sender: TObject);
+    procedure btnImportarClick(Sender: TObject);
+    procedure btnExportarClick(Sender: TObject);
+    procedure grdPiadasTitleClick(Column: TColumn);
+
+    type
+    TEstadoDoCadastro = (ecInserir, ecAlterar, ecNenhum);
+    TAcaoExcluirEstoque = (aeeApagar, aeeAlterar);
+
+    procedure btnSairClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+  private
+    oPiadas:TPiadas;
+    procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar: TbitBtn; pgcPrincipal: TPageControl; Flag: Boolean);
+    procedure LimparEdits;
+    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+    function RetornarCampoTraduzido(Campo: string): string;
+    function AcharNó(Node: IXMLNode; const Key: string): string;
+    function SomenteNumeros(const Texto: string): string;
+    procedure ImportarXML(const FileName: string);
+    procedure InserirPiada(const Texto, Categoria, Tipo: string; ClassificacaoId: Integer);
+    function PuxarClassificacaoId(const Nome: string): Integer;
+    function PiadaJaExiste(const Texto: string): Boolean;
+    function StringSafe(F: TField): string;
+    procedure ExportarCSV(ADataset: TDataSet);
+    { Private declarations }
+  public
+    { Public declarations }
+    IndiceAtual:string;
+    EstadoDoCadastro:TEstadoDoCadastro;
+    function Apagar:Boolean; virtual;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; virtual;
+    procedure ControlarIndiceTab(pgcPrincipal: TPageControl; Indice: Integer);
+  end;
+
+var cadPiadas:TcadPiadas;
+
+implementation
+
+uses
+  uDTMPiadas;
+
+{$R *.dfm}
+
+function TcadPiadas.Apagar: Boolean;
+begin
+  if oPiadas.Selecionar(QryPiadas.FieldByName('piadaId').AsInteger) then begin
+     Result:=oPiadas.Apagar;
+  end;
+end;
+
+procedure TcadPiadas.btnAlterarClick(Sender: TObject);
+begin
+  if oPiadas.Selecionar(QryPiadas.FieldByName('piadaId').AsInteger) then begin
+     edtPiadaId.Text:=IntToStr(oPiadas.piadaId);
+     edtPiada.Text     :=oPiadas.Texto;
+
+     edtCategoria.Text              :=oPiadas.Categoria;
+     lkpClassificacao.KeyValue      :=oPiadas.ClassificacaoId;
+     edtTipo.Text                   :=oPiadas.Tipo;
+
+  end
+  else begin
+    btnCancelar.Click;
+    Abort;
+  end;
+
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
+    EstadoDoCadastro:=ecAlterar;
+end;
+
+procedure TcadPiadas.btnApagarClick(Sender: TObject);
+begin
+  Apagar;
+  QryPiadas.Close;
+  QryPiadas.Open;
+end;
+
+procedure TcadPiadas.btnCancelarClick(Sender: TObject);
+begin
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,True);
+  ControlarIndiceTab(pgcPrincipal, 0);
+  EstadoDoCadastro:=ecNenhum;
+  LimparEdits;
+end;
+
+procedure TcadPiadas.btnExportarClick(Sender: TObject);
+begin
+  ExportarCSV(QryPiadas);
+end;
+
+procedure TcadPiadas.ExportarCSV(ADataset: TDataSet);
+var Lista: TStringList;
+begin
+  if not dlgSalvarPasta.Execute then
+    Exit;
+
+  Lista := TStringList.Create;
+  try
+    Lista.Add('Codigo;Piada;Categoria;Tipo;DataCadastro;Classificacao');
+
+    ADataset.First;
+    while not ADataset.Eof do
+    begin
+      Lista.Add(
+        ADataset.FieldByName('piadaId').AsString + ';' +
+        ADataset.FieldByName('texto').AsString + ';' +
+        ADataset.FieldByName('categoria').AsString + ';' +
+        ADataset.FieldByName('tipo').AsString + ';' +
+        ADataset.FieldByName('dataPiada').AsString + ';' +
+        ADataset.FieldByName('classificacao').AsString
+      );
+
+      ADataset.Next;
+    end;
+
+    Lista.SaveToFile(dlgSalvarPasta.FileName);
+  finally
+    Lista.Free;
+    ShowMessage('Exportação realizada com sucesso!');
+  end;
+end;
+
+procedure TcadPiadas.btnGravarClick(Sender: TObject);
+begin
+  if edtTipo.Text= '' then begin
+    ShowMessage('Insira o Tipo da Piada/Trocadilho');
+    Exit;
+  end
+  else if edtCategoria.Text= '' then begin
+    ShowMessage('Insira a Categoria');
+    Exit;
+  end
+  else if VarIsNull(lkpClassificacao.KeyValue) then begin
+    ShowMessage('Insira a Classificação Indicativa');
+    Exit;
+  end
+  else if edtPiada.Text= '' then begin
+    ShowMessage('Insira sua Piada');
+    Exit;
+  end;
+
+  if not Gravar(EstadoDoCadastro) then
+  begin
+    ShowMessage('Erro ao gravar');
+    Exit;
+  end;
+
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal, True);
+  ControlarIndiceTab(pgcPrincipal, 0);
+
+  EstadoDoCadastro := ecNenhum;
+  LimparEdits;
+
+  QryPiadas.Close;
+  QryPiadas.Open;
+end;
+
+procedure TcadPiadas.ImportarXML(const FileName: string);
+var XMLDoc: IXMLDocument; RootNode, Node: IXMLNode; I, ClassificacaoId, Inseridos, Ignorados: Integer; Texto, Categoria, Tipo, Classificacao: string; Log: TStringList;
+begin
+  Inseridos := 0;
+  Ignorados := 0;
+  Log := TStringList.Create;
+
+  try
+    XMLDoc := TXMLDocument.Create(nil);
+    XMLDoc.LoadFromFile(FileName);
+    XMLDoc.Active := True;
+
+    RootNode := XMLDoc.DocumentElement;
+
+    if (RootNode = nil) or (RootNode.NodeName <> 'piadas') then
+      raise Exception.Create('XML inválido: raiz <piadas> não encontrada');
+
+    for I := 0 to RootNode.ChildNodes.Count - 1 do
+    begin
+      try
+        Node := RootNode.ChildNodes[I];
+
+        //lendo os campos
+        Texto := Trim(AcharNó(Node, 'texto'));
+        Categoria := Trim(AcharNó(Node, 'categoria'));
+        Tipo := Trim(AcharNó(Node, 'tipo'));
+        Classificacao := Trim(AcharNó(Node, 'classificacao'));
+
+        //validações sendo adicionadas no log caso existam
+        if Texto = '' then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': texto vazio');
+          Continue;
+        end;
+
+        if Categoria = '' then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': categoria vazia');
+          Continue;
+        end;
+
+        if Tipo = '' then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': tipo vazio');
+          Continue;
+        end;
+
+        if Classificacao = '' then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': classificação vazia');
+          Continue;
+        end;
+
+        //usei uma função para evitar duplicidade
+        if PiadaJaExiste(Texto) then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': piada duplicada');
+          Continue;
+        end;
+
+        //outra função para puxar o ClassificacaoId
+        ClassificacaoId := PuxarClassificacaoId(Classificacao);
+
+        if ClassificacaoId = 0 then
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': classificação inválida (' + Classificacao + ')');
+          Continue;
+        end;
+
+        //adicionando no banco usando outra função
+        InserirPiada(Texto, Categoria, Tipo, ClassificacaoId);
+        Inc(Inseridos);
+
+      except
+        on E: Exception do
+        begin
+          Inc(Ignorados);
+          Log.Add('Registro ' + IntToStr(I+1) + ': erro inesperado - ' + E.Message);
+          Continue;
+        end;
+      end;
+    end;
+
+    //mensagem do log
+    ShowMessage(
+      'Importação concluída!' + sLineBreak +
+      'Inseridos: ' + IntToStr(Inseridos) + sLineBreak +
+      'Ignorados: ' + IntToStr(Ignorados) );
+
+    if Log.Count > 0 then
+      ShowMessage('Detalhes:' + sLineBreak + Log.Text);
+
+  finally
+    Log.Free;
+  end;
+end;
+
+function TcadPiadas.PuxarClassificacaoId(const Nome: string): Integer;
+var Qry: TFDQuery;
+begin
+  Result := 0;
+
+  Qry := TFDQuery.Create(nil);
+  try
+    Qry.Connection := dtmPiadas.conexaoPiadas;
+
+    Qry.SQL.Text :=
+      'SELECT Id FROM Classificacoes WHERE classificacao = :c';
+
+    Qry.ParamByName('c').AsString := Nome;
+    Qry.Open;
+
+    if not Qry.IsEmpty then
+      Result := Qry.FieldByName('Id').AsInteger;
+
+  finally
+    Qry.Free;
+  end;
+end;
+
+procedure TcadPiadas.btnImportarClick(Sender: TObject);
+begin
+   if dlgAbrirPasta.Execute then
+    ImportarXML(dlgAbrirPasta.FileName);
+end;
+
+procedure TcadPiadas.InserirPiada(const Texto, Categoria, Tipo: string; ClassificacaoId: Integer);
+var Qry: TFDQuery;
+begin
+  Qry := TFDQuery.Create(nil);
+  try
+    Qry.Connection := dtmPiadas.conexaoPiadas;
+
+    Qry.SQL.Text :=
+      'INSERT INTO Piadas (texto, categoria, tipo, classificacaoId) ' +
+      'VALUES (:texto, :categoria, :tipo, :classificacaoId)';
+
+    Qry.ParamByName('texto').AsString := Texto;
+    Qry.ParamByName('categoria').AsString := Categoria;
+    Qry.ParamByName('tipo').AsString := Tipo;
+    Qry.ParamByName('classificacaoId').AsInteger := ClassificacaoId;
+
+    Qry.ExecSQL;
+
+  finally
+    Qry.Free;
+  end;
+  QryPiadas.Close;
+  QryPiadas.Open;
+end;
+
+function TcadPiadas.PiadaJaExiste(const Texto: string): Boolean;
+var Qry: TFDQuery;
+begin
+  Result := False;
+
+  Qry := TFDQuery.Create(nil);
+  try
+    Qry.Connection := dtmPiadas.conexaoPiadas;
+
+    Qry.SQL.Text :=
+      'SELECT 1 FROM Piadas WHERE LOWER(texto) = LOWER(:texto)';
+
+    Qry.ParamByName('texto').AsString := Texto;
+    Qry.Open;
+
+    Result := not Qry.IsEmpty;
+
+  finally
+    Qry.Free;
+  end;
+end;
+
+function TcadPiadas.AcharNó(Node: IXMLNode; const Key: string): string;
+begin
+   if (Node = nil) or (Node.ChildNodes.FindNode(Key) = nil) then
+    Exit('');
+
+  Result := VarToStr(Node.ChildValues[Key]);
+end;
+
+procedure TcadPiadas.btnLimparClick(Sender: TObject);
+begin
+  mskPesquisar.Text:= '';
+  edtPesTipo.text:= '';
+  edtPesCategoria.text:= '';
+end;
+
+procedure TcadPiadas.btnNovoClick(Sender: TObject);
+begin
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
+  EstadoDoCadastro:=ecInserir;
+  LimparEdits;
+end;
+
+procedure TcadPiadas.btnPesquisarClick(Sender: TObject);
+begin
+  QryPiadas.Close;
+  QryPiadas.SQL.Clear;
+
+  QryPiadas.SQL.Add(
+    'SELECT p.piadaId, p.texto, p.categoria, p.tipo, p.dataPiada, c.classificacao ' +
+    'FROM piadas p ' +
+    'LEFT JOIN classificacoes c ON c.Id = p.classificacaoId ' +
+    'WHERE 1=1 ' );
+
+  if Trim(edtPesCategoria.Text) <> '' then
+    QryPiadas.SQL.Add('AND p.categoria LIKE :categoria');
+
+  if Trim(edtPesTipo.Text) <> '' then
+    QryPiadas.SQL.Add('AND p.tipo LIKE :tipo');
+
+  if Trim(mskPesquisar.Text) <> '' then
+    QryPiadas.SQL.Add('AND p.texto LIKE :texto');
+
+  QryPiadas.SQL.Add('ORDER BY p.categoria, p.tipo');
+
+  if Trim(edtPesCategoria.Text) <> '' then
+    QryPiadas.ParamByName('categoria').AsString :=
+      '%' + edtPesCategoria.Text + '%';
+
+  if Trim(edtPesTipo.Text) <> '' then
+    QryPiadas.ParamByName('tipo').AsString :=
+      '%' + edtPesTipo.Text + '%';
+
+  if Trim(mskPesquisar.Text) <> '' then
+    QryPiadas.ParamByName('texto').AsString :=
+      '%' + mskPesquisar.Text + '%';
+
+  QryPiadas.Open;
+end;
+
+procedure TcadPiadas.btnSairClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TcadPiadas.ControlarIndiceTab(pgcPrincipal:TPageControl; Indice: Integer);
+begin
+  if (pgcPrincipal.Pages[Indice].TabVisible) then
+      pgcPrincipal.TabIndex:=Indice;
+end;
+
+procedure TcadPiadas.FormCreate(Sender: TObject);
+begin
+  grdPiadas.TitleFont.Color:=clWhite;
+  QryPiadas.FetchOptions.Mode := fmAll;
+  QryPiadas.Open;
+  QryClassificacoes.Open;
+  oPiadas := TPiadas.Create(DTMPiadas.ConexaoPiadas);
+end;
+
+procedure TcadPiadas.FormDestroy(Sender: TObject);
+begin
+  FreeAndNil(oPiadas);
+end;
+
+procedure TcadPiadas.FormShow(Sender: TObject);
+begin
+    dsPiadas.DataSet := QryPiadas;
+
+  QryClassificacoes.Open;
+
+  QryPiadas.DisableControls;
+  try
+    QryPiadas.Open;
+    QryPiadas.First;
+  finally
+    QryPiadas.EnableControls;
+  end;
+
+  qryPiadas.Open;
+  ControlarIndiceTab(pgcPrincipal, 0);
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
+                  btnGravar, btnApagar,
+                  pgcPrincipal,True);
+
+  mskPesquisar.SetFocus;
+
+  IndiceAtual:=QryPiadas.FieldByName('piadaId').AsString;
+  lblIndice.Caption:= 'Código'
+end;
+
+function TcadPiadas.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+  if Trim(edtPiadaId.Text) = '' then
+     oPiadas.PiadaId := 0
+  else
+     oPiadas.PiadaId:=StrToInt(edtPiadaId.Text);
+
+  oPiadas.texto            :=edtPiada.Text;
+  oPiadas.Categoria        :=edtCategoria.Text;
+  oPiadas.ClassificacaoId  :=lkpClassificacao.KeyValue;
+  oPiadas.Tipo             :=edtTipo.Text;
+
+  if (EstadoDoCadastro=ecInserir) then
+     Result:=oPiadas.Inserir
+  else if (EstadoDoCadastro=ecAlterar) then
+     Result:=oPiadas.Atualizar;
+end;
+
+procedure TcadPiadas.grdPiadasDblClick(Sender: TObject);
+begin
+  btnAlterar.Click;
+end;
+
+procedure TcadPiadas.grdPiadasDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  Linha: Integer;
+begin
+   if (grdPiadas.DataSource = nil) or
+     (grdPiadas.DataSource.DataSet = nil) or
+     (grdPiadas.DataSource.DataSet.IsEmpty) then
+    Exit;
+
+  if (gdFixed in State) then
+  begin
+    grdPiadas.Canvas.Brush.Color := $00D0D0D0; // cinza suave
+    grdPiadas.Canvas.Font.Style := [fsBold];
+    grdPiadas.Canvas.FillRect(Rect);
+    grdPiadas.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+    Exit;
+  end;
+
+  if not grdPiadas.DataSource.DataSet.Active then Exit;
+  if grdPiadas.DataSource.DataSet.IsEmpty then Exit;
+  Linha := grdPiadas.DataSource.DataSet.RecNo;
+
+if (gdSelected in State) then
+begin
+  grdPiadas.Canvas.Brush.Color := $00DFF0DF; // verde pastel
+  grdPiadas.Canvas.Font.Color := clBlack;
+
+  grdPiadas.Canvas.FillRect(Rect);
+  grdPiadas.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  Exit;
+end;
+
+
+  if (Linha mod 2) = 0 then
+    grdPiadas.Canvas.Brush.Color := clWebLightgrey  // cinzinha
+  else
+    grdPiadas.Canvas.Brush.Color := clWhite;
+
+  grdPiadas.Canvas.Font.Color := clBlack;
+
+  grdPiadas.Canvas.FillRect(Rect);
+  grdPiadas.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
+procedure TcadPiadas.grdPiadasTitleClick(Column: TColumn);
+begin
+  IndiceAtual:=Column.FieldName;
+  QryPiadas.IndexFieldNames:=IndiceAtual;
+  ExibirLabelIndice(IndiceAtual,lblIndice);
+end;
+
+function TcadPiadas.RetornarCampoTraduzido(Campo:string):string;
+var   I:Integer;
+begin
+  for I := 0 to qryPiadas.Fields.Count-1 do begin
+    if LowerCase (qryPiadas.Fields[I].FieldName)= LowerCase(Campo) then begin
+    Result:=qryPiadas.Fields[I].DisplayLabel;
+    Break;
+
+    end;
+  end;
+end;
+
+procedure TcadPiadas.ExibirLabelIndice(Campo:string; aLabel:TLabel);
+begin
+  Alabel.Caption:= RetornarCampoTraduzido(Campo);
+end;
+
+procedure TcadPiadas.ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar:TbitBtn; pgcPrincipal: TPageControl; Flag:Boolean);
+begin
+  btnNovo.Enabled:=Flag;
+  btnApagar.Enabled:=Flag;
+  btnAlterar.Enabled:=Flag;
+  pgcPrincipal.Pages[0].TabVisible:=Flag;
+  btnCancelar.Enabled:=not(Flag);
+  btnGravar.Enabled:=not(Flag);
+end;
+
+procedure TcadPiadas.LimparEdits;
+  Var i: Integer;
+begin
+  for i := 0 to ComponentCount -1 do begin
+    if (Components[i] is TLabeledEdit) then
+        TLabeledEdit(Components[i]).Text:=EmptyStr
+      else if (Components[i] is TEdit) then
+      TEdit(Components[i]).Text:=''
+      else if (Components[i] is TMemo) then
+      TMemo(Components[i]).Text:=''
+      else if (Components[i] is TDBLookupComboBox) then
+      TDBLookupComboBox(Components[i]).KeyValue:=Null
+      else if (Components[i] is TCurrencyEdit) then
+      TCurrencyEdit(Components[i]).Value:=0
+      else if (Components[i] is TDateEdit) then
+      TDateEdit(Components[i]).Date:=0
+      else if (Components[i] is TMaskEdit) then
+      TMaskEdit(Components[i]).Text:= ''
+    end;
+  end;
+
+function TcadPiadas.StringSafe(F: TField): string;
+begin
+  if (F = nil) or F.IsNull then
+    Result := ''
+  else
+    Result := F.AsString;
+end;
+
+procedure TcadPiadas.mskPesquisarChange(Sender: TObject);
+var Date:TDateTime; Texto, N: string; poscursor: Integer;
+begin
+
+end;
+
+function TcadPiadas.SomenteNumeros(const Texto:string):string;
+var
+  I:Integer;
+begin
+  Result:='';
+
+  for I:= 1 to Length(Texto) do
+    if Texto[I] in ['0'..'9'] then
+    Result:= Result+Texto[I];
+end;
+
+end.

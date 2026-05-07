@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9443497C-48BC-4E02-AEDA-0DA3B08110E4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="C:\Projeto Delphi\vendas.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Piadas.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="vendas">
+        <MSBuild Projects="C:\Projeto Delphi\vendas.dproj"/>
+    </Target>
+    <Target Name="vendas:Clean">
+        <MSBuild Projects="C:\Projeto Delphi\vendas.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="vendas:Make">
+        <MSBuild Projects="C:\Projeto Delphi\vendas.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Piadas">
+        <MSBuild Projects="Piadas.dproj"/>
+    </Target>
+    <Target Name="Piadas:Clean">
+        <MSBuild Projects="Piadas.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Piadas:Make">
+        <MSBuild Projects="Piadas.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="vendas;Piadas"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="vendas:Clean;Piadas:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="vendas:Make;Piadas:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

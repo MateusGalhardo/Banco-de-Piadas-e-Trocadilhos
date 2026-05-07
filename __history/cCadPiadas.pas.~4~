@@ -1,0 +1,36 @@
+unit cCadPiadas;
+
+interface
+
+uses uCadPiadas, uDTMPiadas, System.Classes, Vcl.Controls, Vcl.ExtCtrls, FireDAC.Comp.Client,
+     Vcl.Dialogs, System.SysUtils, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+     FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async,
+     FireDAC.DApt, FireDAC.Comp.DataSet;
+
+type
+  TPiadas = class
+  private
+   ConexaoPiadas:TFDConnection;
+   F_piadaId: Integer;
+   F_texto: string;
+   F_categoria: string;
+   F_tipo: string;
+   F_classificacaoId: Integer;
+   F_dataPiada: TDateTime;
+
+  public
+   constructor Create(aConexao:TFDConnection);
+   destructor Destroy; override;
+
+  published
+    property PiadaId         :Integer   read F_piadaId         write F_piadaId;
+    property Texto           :string    read F_texto           write F_texto;
+    property Categoria       :string    read F_categoria       write F_categoria;
+    property Tipo            :string    read F_tipo            write F_tipo;
+    property ClassificacaoId :Integer   read F_classificacaoId write F_classificacaoId;
+    property DataPiada       :TDateTime read F_dataPiada       write F_dataPiada;
+  end;
+
+implementation
+
+end.

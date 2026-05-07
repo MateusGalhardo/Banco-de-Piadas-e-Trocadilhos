@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2026/05/04 14:55:12.000.005,=C:\Users\devmv\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2026/05/04 14:58:11.000.095,C:\Users\devmv\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\Users\devmv\Documents\Embarcadero\Studio\Projects\Piadas.dproj</Transaction>
+    <Transaction>2026/05/04 15:02:26.000.298,C:\Users\devmv\Documents\Embarcadero\Studio\Projects\Piadas.dproj=C:\Projeto Desafio\Piadas.dproj</Transaction>
+    <Transaction>2026/05/05 08:19:52.000.805,=C:\Projeto Desafio\Unit1.pas</Transaction>
+    <Transaction>2026/05/05 08:22:51.000.425,C:\Projeto Desafio\uCadPiadas.dfm=C:\Projeto Desafio\Unit1.dfm</Transaction>
+    <Transaction>2026/05/05 08:22:51.000.425,C:\Projeto Desafio\uCadPiadas.pas=C:\Projeto Desafio\Unit1.pas</Transaction>
+    <Transaction>2026/05/05 08:27:31.000.667,=C:\Projeto Desafio\Unit1.pas</Transaction>
+    <Transaction>2026/05/05 08:28:53.000.100,C:\Projeto Desafio\Unit1.pas=C:\Projeto Desafio\uDTMPiadas.pas</Transaction>
+    <Transaction>2026/05/05 08:28:53.000.100,C:\Projeto Desafio\Unit1.dfm=C:\Projeto Desafio\uDTMPiadas.dfm</Transaction>
+    <Transaction>2026/05/05 09:31:45.000.852,=C:\Projeto Desafio\Unit1.pas</Transaction>
+    <Transaction>2026/05/05 09:31:57.000.813,C:\Projeto Desafio\Unit1.pas=C:\Projeto Desafio\cCadPiadas.pas</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,14 @@
+program Piadas;
+
+uses
+  Vcl.Forms,
+  uCadPiadas in 'uCadPiadas.pas' {cadPiadas};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TcadPiadas, cadPiadas);
+  Application.Run;
+end.

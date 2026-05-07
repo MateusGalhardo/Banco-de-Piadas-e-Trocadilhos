@@ -1,0 +1,158 @@
+unit cCadPiadas;
+
+interface
+
+uses uCadPiadas, uDTMPiadas, System.Classes, Vcl.Controls, Vcl.ExtCtrls, FireDAC.Comp.Client,
+     Vcl.Dialogs, System.SysUtils, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+     FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async,
+     FireDAC.DApt, FireDAC.Comp.DataSet;
+
+type
+  TPiadas = class
+  private
+   ConexaoPiadas:TFDConnection;
+   F_piadaId: Integer;
+   F_texto: string;
+   F_categoria: string;
+   F_tipo: string;
+   F_classificacaoId: Integer;
+   F_dataPiada: TDateTime;
+
+  public
+   constructor Create(aConexao:TFDConnection);
+   destructor Destroy; override;
+
+    function Inserir:Boolean;
+    function Atualizar:Boolean;
+    function Apagar:Boolean;
+    function Selecionar(id:Integer):Boolean;
+
+  published
+    property PiadaId         :Integer   read F_piadaId         write F_piadaId;
+    property Texto           :string    read F_texto           write F_texto;
+    property Categoria       :string    read F_categoria       write F_categoria;
+    property Tipo            :string    read F_tipo            write F_tipo;
+    property ClassificacaoId :Integer   read F_classificacaoId write F_classificacaoId;
+    property DataPiada       :TDateTime read F_dataPiada       write F_dataPiada;
+  end;
+
+implementation
+
+{$region 'Constructor e Destructor'}
+constructor TPiadas.Create(aConexao:TFDConnection);
+begin
+  ConexaoPiadas:=aConexao;
+end;
+
+destructor TPiadas.destroy;
+begin
+
+end;
+{$ENDREGION}
+
+function TPiadas.Apagar: Boolean;
+var Qry: TFDQuery;
+begin
+if MessageDlg('Apagar o Registro: '+#13+#13+
+                'Codigo: '+IntToStr(F_piadaId)+#13+
+                'Categoria: '+F_categoria,mtConfirmation,[mbYes, mbNo],0)<> mrYes then begin
+     Result:=false;
+     abort;
+  end;
+
+  try
+    Result:=true;
+    Qry:=TFDQuery.Create(nil);
+    Qry.Connection:=ConexaoPiadas;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM piadas '+
+                ' WHERE piadaId=:piadaId ');
+    Qry.ParamByName('piadaId').AsInteger :=F_piadaId;
+   try
+    ConexaoPiadas.StartTransaction;
+    Qry.ExecSQL;
+    ConexaoPiadas.Commit;
+  except
+    ConexaoPiadas.Rollback;
+    Result:=False;
+  end;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TPiadas.Inserir: Boolean;
+var Qry:TFDQuery;
+begin
+try
+    Result:=true;
+    Qry:=TFDQuery.Create(nil);
+    Qry.Connection:=ConexaoPiadas;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO piadas   (texto, '+
+                '                      categoria, '+
+                '                      tipo, '+
+                '                      classificacaoId) '+
+                ' VALUES              (:texto, '+
+                '                      :categoria, '+
+                '                      :tipo, '+
+                '                      :classificacaoId)' );
+
+    Qry.ParamByName('texto').AsString            :=Self.F_texto;
+    Qry.ParamByName('categoria').AsString        :=Self.F_categoria;
+    Qry.ParamByName('tipo').AsString             :=Self.F_tipo;
+    Qry.ParamByName('classificacaoId').AsInteger :=Self.F_classificacaoId;
+
+    try
+    ConexaoPiadas.StartTransaction;
+    Qry.ExecSQL;
+    ConexaoPiadas.Commit;
+  except
+    ConexaoPiadas.Rollback;
+    Result:=False;
+  end;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+function TPiadas.Atualizar: Boolean;
+var Qry:TFDQuery;
+begin
+  try
+    Result:=true;
+    Qry:=TFDQuery.Create(nil);
+    Qry.Connection:=ConexaoPiadas;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('UPDATE piadas '+
+                '   SET texto            =:texto '+
+                '       ,categoria       =:categoria '+
+                '       ,tipo            =:tipo '+
+                '       ,classificacaoId =:classificacaoId '+
+                ' WHERE piadaId=:piadaId ');
+    Qry.ParamByName('piadaId').AsInteger         :=Self.F_piadaId;
+    Qry.ParamByName('texto').AsString            :=Self.F_texto;
+    Qry.ParamByName('categoria').AsString        :=Self.F_categoria;
+    Qry.ParamByName('tipo').AsInteger            :=Self.F_tipo;
+    Qry.ParamByName('classificacaoId').AsString  :=Self.F_classificacaoId;
+
+    try
+    ConexaoPiadas.StartTransaction;
+    Qry.ExecSQL;
+    ConexaoPiadas.Commit;
+  except
+    ConexaoPiadas.Rollback;
+    Result:=False;
+  end;
+
+  finally
+    if Assigned(Qry) then
+       FreeAndNil(Qry);
+  end;
+end;
+
+end.
