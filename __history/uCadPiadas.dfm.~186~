@@ -1,0 +1,662 @@
+object cadPiadas: TcadPiadas
+  Left = 0
+  Top = 0
+  Align = alClient
+  Caption = 'Banco de Piadas e Trocadilhos'
+  ClientHeight = 520
+  ClientWidth = 900
+  Color = 3223857
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWhite
+  Font.Height = -13
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 17
+  object pnlRodape: TPanel
+    Left = 0
+    Top = 468
+    Width = 900
+    Height = 52
+    Align = alBottom
+    BevelOuter = bvNone
+    Color = 2039074
+    ParentBackground = False
+    TabOrder = 0
+    DesignSize = (
+      900
+      52)
+    object btnNovo: TBitBtn
+      Tag = 99
+      Left = 12
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Caption = 'Novo'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 0
+      OnClick = btnNovoClick
+    end
+    object btnAlterar: TBitBtn
+      Tag = 99
+      Left = 110
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Caption = 'Alterar'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = btnAlterarClick
+    end
+    object btnCancelar: TBitBtn
+      Left = 208
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Caption = 'Cancelar'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 2
+      OnClick = btnCancelarClick
+    end
+    object btnGravar: TBitBtn
+      Tag = 99
+      Left = 306
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Caption = 'Gravar'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 3
+      OnClick = btnGravarClick
+    end
+    object btnApagar: TBitBtn
+      Tag = 99
+      Left = 404
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Caption = 'Apagar'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 4
+      OnClick = btnApagarClick
+    end
+    object btnSair: TBitBtn
+      Left = 798
+      Top = 10
+      Width = 90
+      Height = 32
+      Cursor = crHandPoint
+      Anchors = [akTop, akRight]
+      Cancel = True
+      Caption = 'Sair'
+      DragCursor = crHandPoint
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      OnClick = btnSairClick
+    end
+  end
+  object pgcPrincipal: TPageControl
+    Left = 0
+    Top = 0
+    Width = 900
+    Height = 468
+    ActivePage = tsManutencao
+    Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    object tsListagem: TTabSheet
+      Caption = 'Listagem'
+      object pnlListagemTopo: TPanel
+        Left = 0
+        Top = 0
+        Width = 892
+        Height = 50
+        Align = alTop
+        BevelOuter = bvNone
+        Color = 2039074
+        ParentBackground = False
+        TabOrder = 0
+        object lblIndice: TLabel
+          Left = 8
+          Top = 4
+          Width = 44
+          Height = 13
+          Caption = 'lblIndice'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clSilver
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+        end
+        object mskPesquisar: TMaskEdit
+          Left = 8
+          Top = 20
+          Width = 240
+          Height = 23
+          Cursor = crIBeam
+          Color = clNone
+          Ctl3D = False
+          DragCursor = crIBeam
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -13
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 0
+          Text = ''
+          TextHint = 'Pesquisa por palavras-chave'
+        end
+        object edtPesTipo: TEdit
+          Left = 256
+          Top = 20
+          Width = 148
+          Height = 23
+          Cursor = crIBeam
+          Color = 2039074
+          Ctl3D = False
+          DragCursor = crIBeam
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -13
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 1
+          TextHint = 'Tipo'
+        end
+        object edtPesCategoria: TEdit
+          Left = 412
+          Top = 20
+          Width = 148
+          Height = 23
+          Cursor = crIBeam
+          Color = 2039074
+          Ctl3D = False
+          DragCursor = crIBeam
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWhite
+          Font.Height = -13
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 2
+          TextHint = 'Categoria'
+        end
+        object btnPesquisar: TPngBitBtn
+          Left = 568
+          Top = 18
+          Width = 100
+          Height = 27
+          Cursor = crHandPoint
+          Caption = '&Pesquisar'
+          DragCursor = crHandPoint
+          TabOrder = 3
+          OnClick = btnPesquisarClick
+          PngImage.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000000097048597300000B1300000B1301009A9C18000001314944415478DA
+            95D3BB4A034114C6F1594969B68B905E6D1521F6DA46B0890FA0829D16E9BC80
+            A0126365245DC407D022859752B0D642539B37108BAC5A4582FF63CEC171C91A
+            F7C08F643333DFCE2D81FB5D63584711E3FADB336E50C74BACBF0BBCEF4B3843
+            D60DAE08CB680E0A90C1E7FA7C891A1EB4AD803216D0D3BE4D3F40A6DDD6376F
+            A29A30836D1CA083095B8E04EC6347DFBCE8FEAE2B9DC91E762DE0095398C3DD
+            908079DCE2113316F086515DC2FB9080AC6EA68C092D20D286FF0484BA071FFA
+            D2EF0099CE74CA25B4744CEA4DBC76FD4B262752B100FF18B7709830D88EB18B
+            3C5E2D40AA840B7D96A33AC6BDB6CDBA9F8B642537760D3DFF2A97B4214C98C1
+            2732F19020D629870D5DE724465CFFCF24D7BC8123AC78FD4F0297AE24F0D40B
+            89D2065888ECD1AA7C7E01A16C4017DD96D7CF0000000049454E44AE426082}
+        end
+        object btnLimpar: TPngBitBtn
+          Left = 676
+          Top = 18
+          Width = 80
+          Height = 27
+          Cursor = crHandPoint
+          Caption = 'Limpar'
+          DragCursor = crHandPoint
+          TabOrder = 4
+          OnClick = btnLimparClick
+          PngImage.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000000097048597300000B1300000B1301009A9C18000000834944415478DA
+            6364C00DBC81782610FF07E23420DE8E4D11231E031E03B10C125B8E5403FE13
+            A3769819D000C4F50CC4814E20AE4037E03F919A512C6724511349614092019C
+            40FC8D122FC802F1234A0CF005E24D9418B0088863B128BA0AC43A50F67F5C06
+            0803F10320E6C162402303247DE035600110C7E370A60ED415380D0000CB2318
+            1187E256B30000000049454E44AE426082}
+        end
+        object btnImportar: TPngBitBtn
+          Left = 764
+          Top = 18
+          Width = 60
+          Height = 27
+          Cursor = crHandPoint
+          Caption = 'XML'
+          DragCursor = crHandPoint
+          TabOrder = 5
+          OnClick = btnImportarClick
+          PngImage.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000000097048597300000B1300000B1301009A9C18000000904944415478DA
+            6364A0103052D38036202E066236027A7E01713710D7A01BF013882581F81D01
+            038480F8191073A01BF09F042FC1D50E3303C802C8069C01E259409C06C4260C
+            9068CD03E20B406C00C41318205187E2526403401A2703712ED42050B4EA00F1
+            2D205603E2CB0C90A8C36900280D80E2570A889F2329C445137401C906A08701
+            3E03E07AA91A0B6401006C522C11867CC2780000000049454E44AE426082}
+        end
+        object btnExportar: TPngBitBtn
+          Left = 830
+          Top = 18
+          Width = 60
+          Height = 27
+          Cursor = crHandPoint
+          Caption = 'CSV'
+          DragCursor = crHandPoint
+          TabOrder = 6
+          OnClick = btnExportarClick
+          PngImage.Data = {
+            89504E470D0A1A0A0000000D49484452000000100000001008060000001FF3FF
+            61000000097048597300000B1300000B1301009A9C18000000CF4944415478DA
+            ADD13F0E014114C771D3A83800AE205C8056E34F2B126A898242450809916884
+            445C40ADA15388C201C41D28142A0A15DF495E2163362CFB924F76333BFB9B79
+            33CAF76729AF0306A8C36F8CDF90C1F653C01D215C8CF107CEC89B21CA32D1D6
+            961E4F62810236BF04BCB613701BE038C7F300D765BBC62AC6686184322668E2
+            8414D608DB02F435465144075724B097EF2B1C1043F69B33D0ABF7D0C54C9E25
+            CCE5DD7107696943571C3B0465D52572B29BB7803E6AF2731B4354304543FA3E
+            2222E7E1FD2DB8AE2786622F113F286FDD0000000049454E44AE426082}
+        end
+      end
+      object grdPiadas: TDBGrid
+        Left = 0
+        Top = 50
+        Width = 892
+        Height = 386
+        Align = alClient
+        Color = 3223857
+        DataSource = dsPiadas
+        DrawingStyle = gdsClassic
+        FixedColor = 2039074
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        Options = [dgTitles, dgIndicator, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        ParentFont = False
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clSilver
+        TitleFont.Height = -12
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = [fsBold]
+        OnDrawColumnCell = grdPiadasDrawColumnCell
+        OnDblClick = grdPiadasDblClick
+        OnKeyDown = grdPiadasKeyDown
+        OnTitleClick = grdPiadasTitleClick
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'piadaId'
+            Title.Alignment = taCenter
+            Title.Caption = '#'
+            Width = 50
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'texto'
+            Title.Caption = 'Piada / Trocadilho'
+            Width = 800
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'categoria'
+            Title.Caption = 'Categoria'
+            Width = 120
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'tipo'
+            Title.Caption = 'Tipo'
+            Width = 140
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'dataPiada'
+            Title.Caption = 'Data'
+            Width = 130
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'classificacao'
+            Title.Caption = 'Classif.'
+            Width = 70
+            Visible = True
+          end>
+      end
+    end
+    object tsManutencao: TTabSheet
+      Caption = 'Manuten'#231#227'o'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ImageIndex = 1
+      ParentFont = False
+      object lbl1: TLabel
+        Left = 337
+        Top = 128
+        Width = 32
+        Height = 18
+        Caption = 'Tipo'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lbl2: TLabel
+        Left = 576
+        Top = 128
+        Width = 61
+        Height = 18
+        Caption = 'Categoria'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lbl3: TLabel
+        Left = 775
+        Top = 128
+        Width = 80
+        Height = 18
+        Caption = 'Classifica'#231#227'o'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object lbl4: TLabel
+        Left = 484
+        Top = 197
+        Width = 170
+        Height = 18
+        Caption = 'Escreva sua piada abaixo:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object edtPiadaId: TLabeledEdit
+        Tag = 1
+        Left = 18
+        Top = 70
+        Width = 121
+        Height = 24
+        Color = clWhite
+        Ctl3D = False
+        EditLabel.Width = 103
+        EditLabel.Height = 18
+        EditLabel.Caption = 'C'#243'digo da piada'
+        EditLabel.Color = clWhite
+        EditLabel.Font.Charset = DEFAULT_CHARSET
+        EditLabel.Font.Color = clWhite
+        EditLabel.Font.Height = -15
+        EditLabel.Font.Name = 'Tahoma'
+        EditLabel.Font.Style = []
+        EditLabel.ParentColor = False
+        EditLabel.ParentFont = False
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        MaxLength = 10
+        NumbersOnly = True
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object edtTipo: TEdit
+        Left = 337
+        Top = 146
+        Width = 216
+        Height = 26
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        TextHint = 'Insira o Tipo da piada'
+        OnKeyDown = edtTipoKeyDown
+        OnKeyPress = edtTipoKeyPress
+      end
+      object edtCategoria: TEdit
+        Left = 574
+        Top = 146
+        Width = 186
+        Height = 26
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        TextHint = 'Insira a Categoria da Piada'
+        OnKeyDown = edtCategoriaKeyDown
+        OnKeyPress = edtCategoriaKeyPress
+      end
+      object lkpClassificacao: TDBLookupComboBox
+        Left = 775
+        Top = 146
+        Width = 145
+        Height = 26
+        Cursor = crHandPoint
+        DragCursor = crHandPoint
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        KeyField = 'Id'
+        ListField = 'classificacao'
+        ListSource = dsClassificacoes
+        ParentFont = False
+        TabOrder = 3
+      end
+      object edtPiada: TMemo
+        Left = 484
+        Top = 216
+        Width = 357
+        Height = 113
+        ParentCustomHint = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Lines.Strings = (
+          'edtPiada')
+        ParentFont = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+        OnKeyDown = edtPiadaKeyDown
+        OnKeyPress = edtPiadaKeyPress
+      end
+    end
+  end
+  object QryPiadas: TFDQuery
+    Connection = dtmPiadas.conexaoPiadas
+    SQL.Strings = (
+      'select'
+      '  p.piadaId,'
+      '  isnull(p.texto, '#39#39') as texto,'
+      '  isnull(p.categoria, '#39#39') as categoria,'
+      '  isnull(p.tipo, '#39#39') as tipo,'
+      '  p.dataPiada,'
+      '  isnull(c.classificacao, '#39#39') as classificacao'
+      'from piadas p'
+      'left join classificacoes c on c.Id = p.classificacaoId where 1=1')
+    Left = 716
+    Top = 108
+    object f1QryPiadaspiadaId: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'piadaId'
+      Origin = 'piadaId'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object QryPiadastexto: TWideStringField
+      DisplayLabel = 'Piada/Trocadilho'
+      FieldName = 'texto'
+      Origin = 'texto'
+      ReadOnly = True
+      Required = True
+      Size = 800
+    end
+    object QryPiadascategoria: TWideStringField
+      DisplayLabel = 'Categoria'
+      FieldName = 'categoria'
+      Origin = 'categoria'
+      ReadOnly = True
+      Required = True
+      Size = 100
+    end
+    object QryPiadastipo: TWideStringField
+      DisplayLabel = 'Tipo'
+      FieldName = 'tipo'
+      Origin = 'tipo'
+      ReadOnly = True
+      Required = True
+      Size = 50
+    end
+    object QryPiadasdataPiada: TSQLTimeStampField
+      DisplayLabel = 'Data de Cria'#231#227'o'
+      FieldName = 'dataPiada'
+      Origin = 'dataPiada'
+    end
+    object QryPiadasclassificacao: TWideStringField
+      DisplayLabel = 'Classifica'#231#227'o'
+      FieldName = 'classificacao'
+      Origin = 'classificacao'
+      ReadOnly = True
+      Required = True
+    end
+  end
+  object dsPiadas: TDataSource
+    Left = 772
+    Top = 108
+  end
+  object QryClassificacoes: TFDQuery
+    Connection = dtmPiadas.conexaoPiadas
+    SQL.Strings = (
+      'select * from classificacoes order by ID')
+    Left = 637
+    Top = 108
+    object f1QryClassificacoesId: TFDAutoIncField
+      FieldName = 'Id'
+      Origin = 'Id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object QryClassificacoesclassificacao: TWideStringField
+      FieldName = 'classificacao'
+      Origin = 'classificacao'
+      Required = True
+    end
+  end
+  object dsClassificacoes: TDataSource
+    DataSet = QryClassificacoes
+    Left = 549
+    Top = 108
+  end
+  object dlgAbrirPasta: TOpenDialog
+    Left = 244
+    Top = 8
+  end
+  object dlgSalvarPasta: TSaveDialog
+    DefaultExt = 'csv'
+    Filter = 'Arquivo CSV (*.csv)|*.csv'
+    Left = 316
+    Top = 8
+  end
+end

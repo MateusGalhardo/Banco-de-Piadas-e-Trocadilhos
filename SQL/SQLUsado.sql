@@ -1,10 +1,10 @@
-CREATE TABLE Classificacoes (
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    classificacao NVARCHAR(20) NOT NULL UNIQUE
+create table Classificacoes (
+    Id int identity (1,1) primary key,
+    classificacao nvarchar (20) not null unique
 )
 
-INSERT INTO Classificacoes (classificacao)
-VALUES ('Livre'), ('12+'), ('16+'), ('18+')
+insert into Classificacoes (classificacao)
+values ('Livre'), ('12+'), ('16+'), ('18+')
 
 
 create table Piadas (
@@ -13,11 +13,11 @@ create table Piadas (
     categoria nvarchar(100) NOT NULL, 
     tipo nvarchar(50) NOT NULL,
     classificacaoId int NOT NULL,
-    dataPiada DATETIME2 DEFAULT GETDATE(),
+    dataPiada datetime2 default getdate(),
 
-    CONSTRAINT uq_piadas_texto UNIQUE (texto),
+    constraint uq_piadas_texto unique (texto),
 
-    CONSTRAINT fk_piadas_classificacao
-        FOREIGN KEY (classificacaoId)
-        REFERENCES Classificacoes(Id)
+    constraint fk_piadas_classificacao
+        foreign key (classificacaoId)
+        references Classificacoes(Id)
 )
