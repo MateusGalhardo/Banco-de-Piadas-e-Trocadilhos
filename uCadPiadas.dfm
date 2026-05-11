@@ -1,6 +1,7 @@
 object cadPiadas: TcadPiadas
   Left = 0
   Top = 0
+  ActiveControl = btnNovo
   Align = alClient
   Caption = 'Banco de Piadas e Trocadilhos'
   ClientHeight = 520
@@ -18,6 +19,19 @@ object cadPiadas: TcadPiadas
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 17
+  object lbl6: TLabel
+    Left = 345
+    Top = 136
+    Width = 30
+    Height = 20
+    Caption = 'Tipo'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    ParentFont = False
+  end
   object pnlRodape: TPanel
     Left = 0
     Top = 468
@@ -307,7 +321,7 @@ object cadPiadas: TcadPiadas
     Top = 0
     Width = 900
     Height = 468
-    ActivePage = tsManutencao
+    ActivePage = tsListagem
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -329,11 +343,24 @@ object cadPiadas: TcadPiadas
         ParentBackground = False
         TabOrder = 0
         object lblIndice: TLabel
-          Left = 8
+          Left = 77
           Top = 4
           Width = 44
           Height = 13
           Caption = 'lblIndice'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clSilver
+          Font.Height = -11
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+        end
+        object lblqualquercoisa: TLabel
+          Left = 8
+          Top = 4
+          Width = 66
+          Height = 13
+          Caption = 'Ordenar Por:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clSilver
           Font.Height = -11
@@ -362,7 +389,7 @@ object cadPiadas: TcadPiadas
           TextHint = 'Pesquisa por palavras-chave'
         end
         object edtPesTipo: TEdit
-          Left = 256
+          Left = 412
           Top = 20
           Width = 148
           Height = 23
@@ -381,7 +408,7 @@ object cadPiadas: TcadPiadas
           TextHint = 'Tipo'
         end
         object edtPesCategoria: TEdit
-          Left = 412
+          Left = 256
           Top = 20
           Width = 148
           Height = 23
@@ -566,6 +593,7 @@ object cadPiadas: TcadPiadas
       Font.Style = []
       ImageIndex = 1
       ParentFont = False
+      OnShow = tsManutencaoShow
       object pnl1: TPanel
         Left = 0
         Top = 0
@@ -574,11 +602,7 @@ object cadPiadas: TcadPiadas
         Align = alClient
         Color = 2039074
         ParentBackground = False
-        TabOrder = 3
-        ExplicitLeft = 88
-        ExplicitTop = 184
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        TabOrder = 1
         object lbl1: TLabel
           Left = 337
           Top = 128
@@ -593,7 +617,7 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl2: TLabel
-          Left = 572
+          Left = 558
           Top = 128
           Width = 65
           Height = 20
@@ -606,7 +630,7 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl3: TLabel
-          Left = 775
+          Left = 768
           Top = 128
           Width = 85
           Height = 20
@@ -644,11 +668,31 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentFont = False
         end
-        object edtTipo1: TEdit
-          Left = 572
+        object lbl7: TLabel
+          Left = 126
+          Top = 195
+          Width = 329
+          Height = 260
+          Caption = 
+            #10240#10240#10240#10240#10240#10240#10240#10464#10468#10468#10468#10340#10404#10468#10468#10468#10468#10468#10436#10432#10432#10304#10240#10240#10240#10240#10240#10240#10240#10240#13#10#10240#10240#10240#10240#10240#10464#10495#10367#10463#10287#10322#10415#10493#10451#10450#10430#10479#10477#10495#10495#10303#10285#10285#10479#10487#10470#10304#10240#10240#10240#13#10 +
+            #10240#10240#10240#10240#10480#10495#10479#10462#10453#10493#10302#10303#10303#10303#10431#10447#10495#10495#10495#10327#10493#10495#10495#10487#10333#10495#10495#10310#10240#10240#13#10#10240#10240#10240#10432#10459#10267#10431#10459#10397#10369#10432#10432#10432#10259#10294#10248#10495#10495#10367#10263#10249#10241#10368#10432#10489#10459#10459#10483#10372#10240#13#10 +
+            #10240#10324#10366#10369#10484#10310#10406#10476#10457#10459#10443#10468#10495#10495#10487#10494#10495#10495#10495#10310#10431#10495#10335#10299#10267#10313#10445#10482#10417#10241#13#10#10240#10439#10439#10424#10441#10304#10406#10444#10329#10299#10303#10479#10477#10469#10273#10340#10303#10431#10495#10495#10310#10249#10363#10431#10495#10247#10427#10463#10300#10240#13#10 +
+            #10240#10248#10282#10484#10495#10471#10304#10377#10267#10264#10422#10470#10476#10249#10432#10259#10303#10303#10287#10377#10484#10303#10303#10259#10305#10308#10240#10495#10243#10240#13#10#10240#10240#10240#10265#10495#10495#10487#10444#10299#10400#10468#10432#10249#10256#10267#10303#10303#10288#10294#10278#10288#10294#10247#10264#10243#10241#10240#10495#10240#10240#13#10 +
+            #10240#10240#10240#10240#10264#10431#10495#10495#10487#10444#10299#10431#10247#10492#10486#10470#10308#10436#10432#10304#10368#10304#10368#10304#10304#10240#10400#10495#10240#10240#13#10#10240#10240#10240#10240#10240#10240#10265#10287#10459#10285#10491#10294#10476#10441#10459#10267#10243#10303#10303#10243#10303#10243#10266#10432#10433#10468#10494#10495#10304#10240#13#10 +
+            #10240#10240#10240#10240#10240#10240#10240#10240#10240#10265#10258#10287#10486#10443#10365#10395#10495#10479#10495#10477#10477#10367#10431#10495#10491#10494#10399#10495#10311#10240#13#10#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10249#10267#10303#10303#10486#10494#10495#10495#10495#10477#10477#10477#10486#10495#10367#10241#10240#13#10 +
+            #10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10240#10249#10265#10267#10267#10267#10267#10251#10241#10240#10240#10240
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentFont = False
+        end
+        object cbbTipo: TComboBox
+          Left = 558
           Top = 146
-          Width = 186
-          Height = 26
+          Width = 192
+          Height = 28
           Color = 2039074
           Ctl3D = False
           Font.Charset = ANSI_CHARSET
@@ -658,12 +702,27 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          ParentShowHint = False
-          ShowHint = True
           TabOrder = 0
-          TextHint = 'Insira a Categoria da Piada'
-          OnKeyDown = edtTipoKeyDown
-          OnKeyPress = edtTipoKeyPress
+          OnKeyDown = cbbTipoKeyDown
+          OnKeyPress = cbbTipoKeyPress
+        end
+        object cbbCategoria: TComboBox
+          Left = 337
+          Top = 146
+          Width = 203
+          Height = 28
+          Color = 2039074
+          Ctl3D = False
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWhite
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Style = []
+          ParentCtl3D = False
+          ParentFont = False
+          TabOrder = 1
+          OnKeyDown = cbbCategoriaKeyDown
+          OnKeyPress = cbbCategoriaKeyPress
         end
       end
       object edtPiadaId: TLabeledEdit
@@ -699,7 +758,7 @@ object cadPiadas: TcadPiadas
         TabOrder = 0
       end
       object lkpClassificacao: TDBLookupComboBox
-        Left = 775
+        Left = 768
         Top = 146
         Width = 145
         Height = 26
@@ -717,7 +776,7 @@ object cadPiadas: TcadPiadas
         ListSource = dsClassificacoes
         ParentCtl3D = False
         ParentFont = False
-        TabOrder = 1
+        TabOrder = 2
       end
       object edtPiada: TMemo
         Left = 484
@@ -738,30 +797,9 @@ object cadPiadas: TcadPiadas
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 2
+        TabOrder = 3
         OnKeyDown = edtPiadaKeyDown
         OnKeyPress = edtPiadaKeyPress
-      end
-      object edtTipo: TEdit
-        Left = 337
-        Top = 146
-        Width = 216
-        Height = 26
-        Color = 2039074
-        Ctl3D = False
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWhite
-        Font.Height = -15
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentCtl3D = False
-        ParentFont = False
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 4
-        TextHint = 'Insira o Tipo da piada'
-        OnKeyDown = edtTipoKeyDown
-        OnKeyPress = edtTipoKeyPress
       end
     end
   end
@@ -811,7 +849,7 @@ object cadPiadas: TcadPiadas
       Size = 50
     end
     object QryPiadasdataPiada: TSQLTimeStampField
-      DisplayLabel = 'Data de Cria'#231#227'o'
+      DisplayLabel = 'Data de Cadastro'
       FieldName = 'dataPiada'
       Origin = 'dataPiada'
     end
@@ -858,6 +896,13 @@ object cadPiadas: TcadPiadas
     DefaultExt = 'csv'
     Filter = 'Arquivo CSV (*.csv)|*.csv'
     Left = 316
+    Top = 8
+  end
+  object tmr1: TTimer
+    Enabled = False
+    Interval = 20
+    OnTimer = tmr1Timer
+    Left = 488
     Top = 8
   end
 end

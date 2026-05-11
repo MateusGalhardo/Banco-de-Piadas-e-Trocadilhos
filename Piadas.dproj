@@ -84,6 +84,8 @@
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -109,6 +111,8 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="cCadPiadas.pas"/>
+        <DCCReference Include="Tabelas\cAtualizaTabelasSQL.pas"/>
+        <DCCReference Include="Tabelas\cAtualizaDB.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -129,6 +133,9 @@
                 <Source>
                     <Source Name="MainSource">Piadas.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="Win32\Debug\Piadas.exe" Configuration="Debug" Class="ProjectOutput">

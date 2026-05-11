@@ -36,10 +36,11 @@ begin
 
   Ini := TIniFile.Create(Path);
   try
+    ConexaoPiadas.Params.Clear;
     ConexaoPiadas.Params.DriverID := 'MSSQL';
 
     ConexaoPiadas.Params.Values['Server'] := Ini.ReadString('DB','Server','');
-    ConexaoPiadas.Params.Values['Database'] := Ini.ReadString('DB','Database','');
+    ConexaoPiadas.Params.Values['Database'] := 'master';
 
     Auth := Ini.ReadString('DB','Auth','Windows');
 
@@ -54,7 +55,6 @@ begin
     end;
 
     ConexaoPiadas.LoginPrompt := False;
-    ConexaoPiadas.Connected := True;
 
   finally
     Ini.Free;

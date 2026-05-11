@@ -1,0 +1,170 @@
+unit cAtualizaDB;
+
+interface
+
+uses System.SysUtils, FireDAC.Comp.Client, Data.DB;
+
+type
+  TAtualizaDB = class
+  protected
+    ConnectionDB: TFDConnection;
+
+  public
+    constructor Create(aConnection: TFDConnection);
+
+    procedure ExecutaDiretoSQL(aSQL: string);
+  end;
+
+  TAtualizaDBSQL = class
+  private
+    ConnectionDB: TFDConnection;
+
+    function DatabaseExiste(aDatabase: string): Boolean;
+    procedure CriarDatabase;
+
+  public
+    constructor Create(aConnection: TFDConnection);
+
+    procedure AtualizaDB;
+  end;
+
+implementation
+
+uses
+  cAtualizaTabelasSQL;
+
+{ TAtualizaDB }
+
+constructor TAtualizaDB.Create(aConnection: TFDConnection);
+begin
+  inherited Create;
+  ConnectionDB := aConnection;
+end;
+
+function TAtualizaDBSQL.DatabaseExiste(aDatabase: string): Boolean;
+var Qry: TFDQuery;
+begin
+  Result := False;
+
+  Qry := TFDQuery.Create(nil);
+
+  try
+    Qry.Connection := ConnectionDB;
+
+    Qry.SQL.Text :=
+      ' SELECT database_id ' +
+      ' FROM sys.databases ' +
+      ' WHERE name = :Database ';
+
+    Qry.ParamByName('Database').AsString := aDatabase;
+
+    Qry.Open;
+
+    Result := not Qry.IsEmpty;
+
+  finally
+    Qry.Free;
+  end;
+end;
+
+procedure TAtualizaDB.ExecutaDiretoSQL(aSQL: string);
+var
+  Qry: TFDQuery;
+begin
+  Qry := nil;
+
+  try
+    Qry := TFDQuery.Create(nil);
+    Qry.Connection := ConnectionDB;
+
+    Qry.SQL.Clear;
+    Qry.SQL.Add(aSQL);
+
+    ConnectionDB.StartTransaction;
+
+    try
+      Qry.ExecSQL;
+
+      ConnectionDB.Commit;
+
+    except
+      on E: Exception do
+      begin
+        ConnectionDB.Rollback;
+
+        raise Exception.Create(
+          'Erro ao executar SQL:' + sLineBreak +
+          E.Message
+        );
+      end;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+{ TAtualizaDBSQL }
+
+constructor TAtualizaDBSQL.Create(aConnection: TFDConnection);
+begin
+  inherited Create;
+
+  ConnectionDB := aConnection;
+end;
+
+procedure TAtualizaDBSQL.AtualizaDB;
+var oTable: TAtualizaTabelasSQL;
+begin
+  oTable := nil;
+
+  try
+    // conectado no MASTER
+    CriarDatabase;
+
+    // troca para database Piadas
+    ConnectionDB.Close;
+
+    ConnectionDB.Params.Clear;
+    ConnectionDB.Params.Add('Server=DC-TR-07-VM\SQLEXPRESS');
+    ConnectionDB.Params.Add('Database=Piadas');
+    ConnectionDB.Params.Add('OSAuthent=Yes');
+    ConnectionDB.Params.Add('DriverID=MSSQL');
+
+    ConnectionDB.Open;
+
+    // cria tabelas
+    oTable := TAtualizaTabelasSQL.Create(ConnectionDB);
+
+    oTable.Execute;
+
+  finally
+    oTable.Free;
+  end;
+end;
+
+procedure TAtualizaDBSQL.CriarDatabase;
+var
+  Qry: TFDQuery;
+begin
+  if not DatabaseExiste('Piadas') then
+  begin
+    Qry := TFDQuery.Create(nil);
+
+    try
+      Qry.Connection := ConnectionDB;
+
+      Qry.SQL.Text :=
+        'CREATE DATABASE Piadas';
+
+      Qry.ExecSQL;
+
+    finally
+      Qry.Free;
+      Sleep(500);
+    end;
+  end;
+end;
+
+end.

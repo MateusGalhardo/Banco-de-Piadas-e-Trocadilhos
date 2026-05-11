@@ -7,7 +7,8 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
   Vcl.DBGrids, Vcl.Mask, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  RxCurrEdit, Vcl.DBCtrls, RxToolEdit, cCadPiadas, System.IniFiles, Xml.XMLDoc, Xml.XMLIntf, PngSpeedButton, PngBitBtn;
+  RxCurrEdit, Vcl.DBCtrls, RxToolEdit, cCadPiadas, System.IniFiles, Xml.XMLDoc, Xml.XMLIntf, PngSpeedButton, PngBitBtn,
+  System.StrUtils, cAtualizaDB;
 
 type
   TcadPiadas = class(TForm)
@@ -54,8 +55,12 @@ type
     lbl3: TLabel;
     lbl4: TLabel;
     lbl5: TLabel;
-    edtTipo: TEdit;
-    edtTipo1: TEdit;
+    cbbTipo: TComboBox;
+    cbbCategoria: TComboBox;
+    lbl6: TLabel;
+    lbl7: TLabel;
+    tmr1: TTimer;
+    lblqualquercoisa: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
@@ -72,12 +77,14 @@ type
     procedure btnExportarClick(Sender: TObject);
     procedure grdPiadasTitleClick(Column: TColumn);
     procedure edtPiadaKeyPress(Sender: TObject; var Key: Char);
-    procedure edtTipoKeyPress(Sender: TObject; var Key: Char);
-    procedure edtCategoriaKeyPress(Sender: TObject; var Key: Char);
-    procedure edtTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure edtCategoriaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtPiadaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure grdPiadasKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cbbTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cbbCategoriaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure cbbCategoriaKeyPress(Sender: TObject; var Key: Char);
+    procedure cbbTipoKeyPress(Sender: TObject; var Key: Char);
+    procedure tsManutencaoShow(Sender: TObject);
+    procedure tmr1Timer(Sender: TObject);
 
     type
     TEstadoDoCadastro = (ecInserir, ecAlterar, ecNenhum);
@@ -91,6 +98,7 @@ type
     procedure LimparEdits;
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
     function RetornarCampoTraduzido(Campo: string): string;
+    function NormalizarTexto(const Texto: string): string;
     function AcharNó(Node: IXMLNode; const Key: string): string;
     function SomenteNumeros(const Texto: string): string;
     procedure ImportarXML(const FileName: string);
@@ -103,6 +111,8 @@ type
     procedure BloqueiaTeclas(var Key: Word; Shift: TShiftState);
     procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
     function SemEnter(const S: string): string;
+    procedure AdicionarItemCombo(Combo: TComboBox; const Valor: string);
+    procedure CarregarCombos;
     { Private declarations }
   public
     { Public declarations }
@@ -135,9 +145,9 @@ begin
      edtPiadaId.Text:=IntToStr(oPiadas.piadaId);
 
      edtPiada.Text                  :=oPiadas.Texto;
-     edtCategoria.Text              :=oPiadas.Categoria;
+     cbbCategoria.Text              :=oPiadas.Categoria;
      lkpClassificacao.KeyValue      :=oPiadas.ClassificacaoId;   //puxa todas as informações
-     edtTipo.Text                   :=oPiadas.Tipo;
+     cbbTipo.Text                   :=oPiadas.Tipo;
   end
   else begin
     btnCancelar.Click;
@@ -147,6 +157,7 @@ begin
   //desativa os botões e altera o estado do cadastro
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
     EstadoDoCadastro:=ecAlterar;
+    btnCancelar.Font.Color := clBlack;
 end;
 
 procedure TcadPiadas.btnApagarClick(Sender: TObject);
@@ -206,11 +217,11 @@ end;
 
 procedure TcadPiadas.btnGravarClick(Sender: TObject);
 begin
-  if edtTipo.Text= '' then begin
+  if cbbTipo.Text= '' then begin
     ShowMessage('Insira o Tipo da Piada/Trocadilho');
     Exit;
   end
-  else if edtCategoria.Text= '' then begin
+  else if cbbCategoria.Text= '' then begin
     ShowMessage('Insira a Categoria');         //verificações para impedir que o usuário deixe campos vazios
     Exit;
   end
@@ -228,6 +239,9 @@ begin
     ShowMessage('Erro ao gravar');
     Exit;
   end;
+
+  AdicionarItemCombo(cbbCategoria, cbbCategoria.Text);
+  AdicionarItemCombo(cbbTipo, cbbTipo.Text);
 
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal, True);
   ControlarIndiceTab(pgcPrincipal, 0);
@@ -444,6 +458,57 @@ begin
   btnCancelar.Font.Color := clBlack;
 end;
 
+procedure TcadPiadas.AdicionarItemCombo(Combo: TComboBox; const Valor: string);
+var
+  Texto: string;
+begin
+  Texto := NormalizarTexto(Valor);        //coloca o item criado dentro dos 'Items' da combobox
+
+  if Texto = '' then
+    Exit;
+
+  if Combo.Items.IndexOf(Texto) = -1 then
+    Combo.Items.Add(Texto);
+end;
+
+procedure TcadPiadas.CarregarCombos;
+begin
+  cbbCategoria.Items.Clear;
+  cbbTipo.Items.Clear;
+
+  QryPiadas.First;
+
+  while not QryPiadas.Eof do       //carrega as combobox para que estejam atualizadas depois de criar um novo item
+  begin
+    AdicionarItemCombo(cbbCategoria,
+      QryPiadas.FieldByName('categoria').AsString);
+
+    AdicionarItemCombo(cbbTipo,
+      QryPiadas.FieldByName('tipo').AsString);
+
+    QryPiadas.Next;
+  end;
+
+end;
+
+function TcadPiadas.NormalizarTexto(const Texto: string): string;
+var i: Integer; maiuscula: Boolean;
+begin
+  Result := LowerCase(Trim(Texto));
+  maiuscula := True;                  //função para substituir o AnsiProperString, a primeira letra de cada palavra
+                                      //fica maiúscula, o resto minúsculo
+  for i := 1 to Length(Result) do
+  begin
+    if maiuscula and (Result[i] in ['a'..'z', 'á'..'ú', 'ã', 'õ', 'â', 'ê', 'ô']) then
+    begin
+      Result[i] := UpCase(Result[i]);
+      maiuscula := False;
+    end
+    else if Result[i] = ' ' then
+      maiuscula := True;
+  end;
+end;
+
 procedure TcadPiadas.BloqueiaPontoEVirgula(var Key: Char);
 begin
     case Key of
@@ -474,7 +539,7 @@ end;
 
 procedure TcadPiadas.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
 begin
-  if (Shift =[ssCtrl]) and (Key = 46) then
+  if (Shift =[ssCtrl]) and (Key = 46) then  //se ctrl estiver pressionado junto com o del, anula os dois
       Key := 0
 end;
 
@@ -486,11 +551,11 @@ begin
   QryPiadas.SQL.Add(
     'SELECT p.piadaId, p.texto, p.categoria, p.tipo, p.dataPiada, c.classificacao ' +
     'FROM piadas p ' +
-    'LEFT JOIN classificacoes c ON c.Id = p.classificacaoId ' +                //select base
+    'LEFT JOIN classificacoes c ON c.Id = p.classificacaoId ' +     //select base
     'WHERE 1=1 ' );
 
   if Trim(edtPesCategoria.Text) <> '' then
-    QryPiadas.SQL.Add('AND p.categoria LIKE :categoria'); //se a pesquisa de categoria não estiver vazia adiciona os filtros
+    QryPiadas.SQL.Add('AND p.categoria LIKE :categoria'); //se a pesquisa de categoria não estiver vazia adiciona filtros
 
   if Trim(edtPesTipo.Text) <> '' then
     QryPiadas.SQL.Add('AND p.tipo LIKE :tipo'); //mesma coisa só que pra tipo
@@ -506,8 +571,8 @@ begin
 
   if Trim(edtPesTipo.Text) <> '' then
     QryPiadas.ParamByName('tipo').AsString :=
-      '%' + edtPesTipo.Text + '%';           //coloca a pesquisa do usuário dentro do select com like caso seu respectivo campo esteja preenchido
-
+      '%' + edtPesTipo.Text + '%';           //coloca a pesquisa do usuário dentro do select com like
+                                             //caso seu respectivo campo esteja preenchido
   if Trim(mskPesquisar.Text) <> '' then
     QryPiadas.ParamByName('texto').AsString :=
       '%' + mskPesquisar.Text + '%';
@@ -520,11 +585,21 @@ begin
   Application.Terminate; //fecha o programa
 end;
 
+procedure TcadPiadas.cbbTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  BloqueiaTeclas(Key, Shift);
+end;
+
+procedure TcadPiadas.cbbTipoKeyPress(Sender: TObject; var Key: Char);
+begin
+  BloqueiaPontoEVirgula(Key);
+end;
+
 function TcadPiadas.SemEnter(const S: string): string;
 begin
   Result := StringReplace(S, sLineBreak, ' ', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, ' ', [rfReplaceAll]); //substitui a quebra de linha por um espaço comum
-  Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);
+  Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);    //pq enter quebra o csv
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
@@ -534,12 +609,12 @@ begin
       pgcPrincipal.TabIndex:=Indice;            //troca pra aba informada caso ela esteja visível.
 end;
 
-procedure TcadPiadas.edtCategoriaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TcadPiadas.cbbCategoriaKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   BloqueiaTeclas(Key, Shift);
 end;
 
-procedure TcadPiadas.edtCategoriaKeyPress(Sender: TObject; var Key: Char);
+procedure TcadPiadas.cbbCategoriaKeyPress(Sender: TObject; var Key: Char);
 begin
   BloqueiaPontoEVirgula(Key);
 end;
@@ -554,18 +629,21 @@ begin
   BloqueiaPontoEVirgula(Key);
 end;
 
-procedure TcadPiadas.edtTipoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  BloqueiaTeclas(Key, Shift);
-end;
-
-procedure TcadPiadas.edtTipoKeyPress(Sender: TObject; var Key: Char);
-begin
-  BloqueiaPontoEVirgula(Key);
-end;
-
 procedure TcadPiadas.FormCreate(Sender: TObject);
+var DB: TAtualizaDBSQL;
 begin
+   DTMPiadas.conexaoPiadas.Params.Values['Database'] := 'master';
+   DTMPiadas.conexaoPiadas.Connected := True; //antes de conectar no db correto, conecta no master para padronizar
+
+   dtmPiadas.ConexaoPiadas.Open;
+
+   DB := TAtualizaDBSQL.Create(DTMPiadas.conexaoPiadas);
+  try
+    DB.AtualizaDB;
+  finally
+    DB.Free;
+  end;
+
   grdPiadas.TitleFont.Color:=clWhite;   //define cor do título das colunas
   QryPiadas.FetchOptions.Mode := fmAll;
   QryPiadas.Open;
@@ -580,6 +658,8 @@ begin
   btnApagar.Font.Color    := $003C14DC;  // vermelho suave
   btnCancelar.Font.Color  := $9D9D9D;  // cinza
   btnSair.Font.Color      := $002222B2;
+
+  CarregarCombos;
 
   ShowHint := True;
   btnImportar.Hint  := 'Importar piadas de um arquivo XML';
@@ -627,9 +707,9 @@ begin
      oPiadas.PiadaId:=StrToInt(edtPiadaId.Text);
 
   oPiadas.texto            :=edtPiada.Text;
-  oPiadas.Categoria        :=edtCategoria.Text;
+  oPiadas.Categoria        :=NormalizarTexto(cbbCategoria.Text);
   oPiadas.ClassificacaoId  :=lkpClassificacao.KeyValue;  //define o conteúdo de cada campo
-  oPiadas.Tipo             :=edtTipo.Text;
+  oPiadas.Tipo             :=NormalizarTexto(cbbTipo.Text);
 
   if (EstadoDoCadastro=ecInserir) then
      Result:=oPiadas.Inserir                 //se o estado do cadastro foi inserir ele insere, se for alterar ele atualiza
@@ -652,7 +732,7 @@ begin
 
   //fundo
   if IsSelected then
-    Grid.Canvas.Brush.Color := $6B3B3D
+    Grid.Canvas.Brush.Color := $6B3B3D                          //apenas visuais de grid
   else
   begin
     try
@@ -753,6 +833,8 @@ begin
       TDateEdit(Components[i]).Date:=0
       else if (Components[i] is TMaskEdit) then
       TMaskEdit(Components[i]).Text:= ''
+      else if (Components[i] is TComboBox) then
+      TComboBox(Components[i]).Text := '';
     end;
   end;
 
@@ -762,6 +844,24 @@ begin
     Result := ''                  //evita campos nulos
   else
     Result := F.AsString;
+end;
+
+procedure TcadPiadas.tmr1Timer(Sender: TObject);
+begin
+   Sleep(30);
+  lbl7.Left := lbl7.Left + 5;
+
+  // posição final
+  if lbl7.Left >= 20 then
+    tmr1.Enabled := False;
+end;
+
+procedure TcadPiadas.tsManutencaoShow(Sender: TObject);
+begin
+  cbbTipo.SetFocus;
+  lbl7.Left := -lbl7.Width;
+  tmr1.Enabled := True;
+  CarregarCombos;
 end;
 
 function TcadPiadas.SomenteNumeros(const Texto:string):string;
