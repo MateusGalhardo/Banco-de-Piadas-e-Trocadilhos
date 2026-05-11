@@ -84,16 +84,21 @@ Ao instalar, anote o **nome da instância** (ex: `MEUPC\SQLEXPRESS`) e habilite 
 
 ## ▶️ Como Executar
 
-### Passo 1 — Configurar a conexão
+### Passo 1 — Baixar Programa
+
+- Baixe os arquivos localizados nesse repositório na aba "Releases" ou no link a seguir:
+- `https://github.com/MateusGalhardo/Banco-de-Piadas-e-Trocadilhos/releases`
+
+### Passo 2 — Configurar a conexão
 
 Edite o arquivo `config.ini` conforme descrito na seção abaixo.
 
-### Passo 2 — Compilar e executar
+### Passo 3 — Compilar e executar
 
 ```
-1. Abra o arquivo  Piadas.dpr  no RAD Studio
+1. Abra o arquivo Piadas.exe
 2. Confirme que os componentes de terceiros estão instalados
-3. Pressione  F9  (ou Run > Run) para compilar e executar
+3. O banco de dados e tabelas necessárias serão criados automáticamente
 ```
 
 > O executável compilado fica em `Win32/Debug/Piadas.exe` e pode ser distribuído para outras máquinas Windows sem instalar o Delphi, desde que o SQL Server esteja acessível.
