@@ -43,31 +43,26 @@ begin
     ConexaoPiadas.Params.Values['Database'] := 'master';
 
     Auth := Ini.ReadString('DB','Auth','Windows');
-
-    if SameText(Auth, 'SQL') then
-    begin
+    try
+     if SameText(Auth, 'SQL') then
+     begin
       ConexaoPiadas.Params.Values['User_Name'] := Ini.ReadString('DB','User','');
       ConexaoPiadas.Params.Values['Password'] := Ini.ReadString('DB','Password','');
-    end
-    else
-    begin
+     end
+     else
+     begin
       ConexaoPiadas.Params.Values['OSAuthent'] := 'Yes';
+     end;
+    except
+     on E: Exception do
+     begin
+       ShowMessage('Falha ao configurar o banco de dados ' +sLineBreak+ E.Message+ 'Vonfigure seu config.ini')
+     end;
+
     end;
+
 
     ConexaoPiadas.LoginPrompt := False;
-
-    try
-      ConexaoPiadas.Connected := True;
-    except
-      on E: Exception do
-      begin
-        raise Exception.Create(
-          'Erro ao conectar no servidor SQL.' + sLineBreak +
-          'Verifique Server no config.ini.' + sLineBreak +
-          E.Message
-        );
-      end;
-    end;
 
   finally
     Ini.Free;

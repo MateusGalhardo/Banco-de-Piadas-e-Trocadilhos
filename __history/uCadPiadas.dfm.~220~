@@ -604,7 +604,7 @@ object cadPiadas: TcadPiadas
         ParentBackground = False
         TabOrder = 1
         object lbl1: TLabel
-          Left = 558
+          Left = 337
           Top = 128
           Width = 30
           Height = 20
@@ -617,7 +617,7 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl2: TLabel
-          Left = 337
+          Left = 558
           Top = 128
           Width = 65
           Height = 20

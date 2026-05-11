@@ -858,7 +858,7 @@ end;
 
 procedure TcadPiadas.tsManutencaoShow(Sender: TObject);
 begin
-  cbbTipo.SetFocus;
+  cbbCategoria.SetFocus;
   lbl7.Left := -lbl7.Width;
   tmr1.Enabled := True;
   CarregarCombos;
