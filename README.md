@@ -102,7 +102,7 @@ Edite o arquivo `config.ini` conforme descrito na seção abaixo.
 
 ## ⚙️ Configuração via config.ini
 
-O arquivo `Win32/Debug/config.ini` centraliza todas as configurações de conexão com o banco de dados. Ele é lido automaticamente pelo sistema na inicialização.
+O arquivo `Win32/Debug/config.ini` centraliza todas as configurações de conexão com o banco de dados. Ele é lido automaticamente pelo sistema na inicialização (O banco `master` é apenas a base, ao executar o programa um novo banco é criado para o uso).
 
 **Localização:** `Win32/Debug/config.ini`
 
