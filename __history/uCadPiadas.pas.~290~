@@ -8,7 +8,7 @@ uses
   Vcl.DBGrids, Vcl.Mask, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   RxCurrEdit, Vcl.DBCtrls, RxToolEdit, cCadPiadas, System.IniFiles, Xml.XMLDoc, Xml.XMLIntf, PngSpeedButton, PngBitBtn,
-  System.StrUtils;
+  System.StrUtils, cAtualizaDB;
 
 type
   TcadPiadas = class(TForm)
@@ -462,7 +462,7 @@ procedure TcadPiadas.AdicionarItemCombo(Combo: TComboBox; const Valor: string);
 var
   Texto: string;
 begin
-  Texto := NormalizarTexto(Valor);
+  Texto := NormalizarTexto(Valor);        //coloca o item criado dentro dos 'Items' da combobox
 
   if Texto = '' then
     Exit;
@@ -478,7 +478,7 @@ begin
 
   QryPiadas.First;
 
-  while not QryPiadas.Eof do
+  while not QryPiadas.Eof do       //carrega as combobox para que estejam atualizadas depois de criar um novo item
   begin
     AdicionarItemCombo(cbbCategoria,
       QryPiadas.FieldByName('categoria').AsString);
@@ -495,8 +495,8 @@ function TcadPiadas.NormalizarTexto(const Texto: string): string;
 var i: Integer; maiuscula: Boolean;
 begin
   Result := LowerCase(Trim(Texto));
-  maiuscula := True;
-
+  maiuscula := True;                  //função para substituir o AnsiProperString, a primeira letra de cada palavra
+                                      //fica maiúscula, o resto minúsculo
   for i := 1 to Length(Result) do
   begin
     if maiuscula and (Result[i] in ['a'..'z', 'á'..'ú', 'ã', 'õ', 'â', 'ê', 'ô']) then
@@ -539,7 +539,7 @@ end;
 
 procedure TcadPiadas.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
 begin
-  if (Shift =[ssCtrl]) and (Key = 46) then
+  if (Shift =[ssCtrl]) and (Key = 46) then  //se ctrl estiver pressionado junto com o del, anula os dois
       Key := 0
 end;
 
@@ -551,11 +551,11 @@ begin
   QryPiadas.SQL.Add(
     'SELECT p.piadaId, p.texto, p.categoria, p.tipo, p.dataPiada, c.classificacao ' +
     'FROM piadas p ' +
-    'LEFT JOIN classificacoes c ON c.Id = p.classificacaoId ' +                //select base
+    'LEFT JOIN classificacoes c ON c.Id = p.classificacaoId ' +     //select base
     'WHERE 1=1 ' );
 
   if Trim(edtPesCategoria.Text) <> '' then
-    QryPiadas.SQL.Add('AND p.categoria LIKE :categoria'); //se a pesquisa de categoria não estiver vazia adiciona os filtros
+    QryPiadas.SQL.Add('AND p.categoria LIKE :categoria'); //se a pesquisa de categoria não estiver vazia adiciona filtros
 
   if Trim(edtPesTipo.Text) <> '' then
     QryPiadas.SQL.Add('AND p.tipo LIKE :tipo'); //mesma coisa só que pra tipo
@@ -571,8 +571,8 @@ begin
 
   if Trim(edtPesTipo.Text) <> '' then
     QryPiadas.ParamByName('tipo').AsString :=
-      '%' + edtPesTipo.Text + '%';           //coloca a pesquisa do usuário dentro do select com like caso seu respectivo campo esteja preenchido
-
+      '%' + edtPesTipo.Text + '%';           //coloca a pesquisa do usuário dentro do select com like
+                                             //caso seu respectivo campo esteja preenchido
   if Trim(mskPesquisar.Text) <> '' then
     QryPiadas.ParamByName('texto').AsString :=
       '%' + mskPesquisar.Text + '%';
@@ -599,7 +599,7 @@ function TcadPiadas.SemEnter(const S: string): string;
 begin
   Result := StringReplace(S, sLineBreak, ' ', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, ' ', [rfReplaceAll]); //substitui a quebra de linha por um espaço comum
-  Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);
+  Result := StringReplace(Result, #13, ' ', [rfReplaceAll]);    //pq enter quebra o csv
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
@@ -630,7 +630,20 @@ begin
 end;
 
 procedure TcadPiadas.FormCreate(Sender: TObject);
+var DB: TAtualizaDBSQL;
 begin
+   DTMPiadas.conexaoPiadas.Params.Values['Database'] := 'master';
+   DTMPiadas.conexaoPiadas.Connected := True; //antes de conectar no db correto, conecta no master para padronizar
+
+   dtmPiadas.ConexaoPiadas.Open;
+
+   DB := TAtualizaDBSQL.Create(DTMPiadas.conexaoPiadas);
+  try
+    DB.AtualizaDB;
+  finally
+    DB.Free;
+  end;
+
   grdPiadas.TitleFont.Color:=clWhite;   //define cor do título das colunas
   QryPiadas.FetchOptions.Mode := fmAll;
   QryPiadas.Open;
@@ -719,7 +732,7 @@ begin
 
   //fundo
   if IsSelected then
-    Grid.Canvas.Brush.Color := $6B3B3D
+    Grid.Canvas.Brush.Color := $6B3B3D                          //apenas visuais de grid
   else
   begin
     try
@@ -845,7 +858,7 @@ end;
 
 procedure TcadPiadas.tsManutencaoShow(Sender: TObject);
 begin
-  cbbTipo.SetFocus;
+  cbbCategoria.SetFocus;
   lbl7.Left := -lbl7.Width;
   tmr1.Enabled := True;
   CarregarCombos;

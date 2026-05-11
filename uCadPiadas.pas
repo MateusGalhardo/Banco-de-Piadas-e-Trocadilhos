@@ -217,11 +217,11 @@ end;
 
 procedure TcadPiadas.btnGravarClick(Sender: TObject);
 begin
-  if cbbTipo.Text= '' then begin
+  if Trim(cbbTipo.Text)= '' then begin
     ShowMessage('Insira o Tipo da Piada/Trocadilho');
     Exit;
   end
-  else if cbbCategoria.Text= '' then begin
+  else if Trim(cbbCategoria.Text)= '' then begin
     ShowMessage('Insira a Categoria');         //verificações para impedir que o usuário deixe campos vazios
     Exit;
   end
@@ -229,7 +229,7 @@ begin
     ShowMessage('Insira a Classificação Indicativa');
     Exit;
   end
-  else if edtPiada.Text= '' then begin
+  else if Trim(edtPiada.Text)= '' then begin
     ShowMessage('Insira sua Piada');
     Exit;
   end;
