@@ -194,7 +194,7 @@ Password=minhasenha
 ```
 
 > ⚠️ O nó raiz **deve** se chamar `<piadas>` e cada item **deve** se chamar `<piada>`.
-> Valores aceitos para `<classificacao>`: `Livre`, `12+`, `16+`, `18+`
+> Valores aceitos para `<classificacao>`: `Livre`, `10+`, `12+`, `14+`, `16+`, `18+`
 
 ---
 
@@ -226,7 +226,7 @@ Codigo;Piada;Categoria;Tipo;DataCadastro;Classificacao
 - 📥 **Importação em lote via XML** com validação completa e log de registros ignorados
 - 📤 **Exportação para CSV** do conjunto de dados exibido na grade no momento
 - 🚫 **Prevenção de duplicatas** automática na importação (comparação case-insensitive)
-- 🏷️ **Classificação indicativa** gerenciada via lookup: `Livre`, `12+`, `16+`, `18+`
+- 🏷️ **Classificação indicativa** gerenciada via lookup: `Livre`, `10+`, `12+`, `14+`, `16+`, `18+`
 - ⚙️ **Conexão configurável** via arquivo `config.ini`, sem necessidade de recompilar
 - 🗂️ **Interface com abas** separando listagem e manutenção de registros
 - 🎨 **Grade com linhas alternadas** e destaque visual na linha selecionada
