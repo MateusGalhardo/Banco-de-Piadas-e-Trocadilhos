@@ -47,7 +47,7 @@ begin
 
     Qry.SQL.Text :=
       ' SELECT 1 ' +
-      ' FROM INFORMATION_SCHEMA.TABLES ' +
+      ' FROM INFORMATION_SCHEMA.TABLES ' +    //verifica se a tabela existe usando esse comando do sql
       ' WHERE TABLE_NAME = :TableName ';
 
     Qry.ParamByName('TableName').AsString := aTableName;
@@ -72,8 +72,8 @@ begin
       '   classificacao NVARCHAR(20) NOT NULL UNIQUE ' +
       ' ) '
 
-    );
-
+    );                                   //se a tabela classificacoes n existir, cria ela e da um insert
+                                         //nos itens necessários
     ExecutaDiretoSQL(
 
       ' INSERT INTO Classificacoes (classificacao) ' +
@@ -99,7 +99,7 @@ begin
       '   piadaId INT IDENTITY(1,1) PRIMARY KEY, ' +
       '   texto NVARCHAR(800) NOT NULL, ' +
       '   categoria NVARCHAR(100) NOT NULL, ' +
-      '   tipo NVARCHAR(50) NOT NULL, ' +
+      '   tipo NVARCHAR(50) NOT NULL, ' +           //se a tabela piadas n exisitir, cria ela
       '   classificacaoId INT NOT NULL, ' +
       '   dataPiada DATETIME2 DEFAULT GETDATE(), ' +
 

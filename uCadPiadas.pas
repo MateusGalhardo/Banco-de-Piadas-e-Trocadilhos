@@ -141,6 +141,10 @@ end;
 
 procedure TcadPiadas.btnAlterarClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   if oPiadas.Selecionar(QryPiadas.FieldByName('piadaId').AsInteger) then begin
      edtPiadaId.Text:=IntToStr(oPiadas.piadaId);
 
@@ -162,6 +166,10 @@ end;
 
 procedure TcadPiadas.btnApagarClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   Apagar;
   QryPiadas.Close;  //limpa os campos e atualiza a query
   QryPiadas.Open;
@@ -719,6 +727,10 @@ end;
 
 procedure TcadPiadas.grdPiadasDblClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   btnAlterar.Click; //double click tem o mesmo efeito de clicar no botão alterar
   btnCancelar.font.color:= clBlack
 end;

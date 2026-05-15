@@ -53,7 +53,7 @@ begin
 
     Qry.SQL.Text :=
       ' SELECT database_id ' +
-      ' FROM sys.databases ' +
+      ' FROM sys.databases ' +      //da um select pra ver se o database existe e retorna um resultado
       ' WHERE name = :Database ';
 
     Qry.ParamByName('Database').AsString := aDatabase;
@@ -79,8 +79,8 @@ begin
 
     Qry.SQL.Clear;
     Qry.SQL.Add(aSQL);
-
-    ConnectionDB.StartTransaction;
+                                        //procedure para executar um comando no sql, usando a string aSQL declarada
+    ConnectionDB.StartTransaction;      //na procedure
 
     try
       Qry.ExecSQL;
@@ -119,8 +119,8 @@ var
   oTable: TAtualizaTabelasSQL;
 begin
   CriarDatabase;
-
-  ConnectionDB.Close;
+                                  //define o uso do banco 'piadas', pq o banco padrão é o 'master', assim evita erro
+  ConnectionDB.Close;                                     //para alguns usuários
   ConnectionDB.Params.Values['Database'] := 'Piadas';
   ConnectionDB.Open;
 
@@ -142,7 +142,7 @@ begin
 
     try
       Qry.Connection := ConnectionDB;
-
+                                           //se o database 'piadas' n existe, cria ele, para automatizar o processo
       Qry.SQL.Text :=
         'CREATE DATABASE Piadas';
 
