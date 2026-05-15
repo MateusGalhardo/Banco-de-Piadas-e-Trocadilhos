@@ -101,15 +101,15 @@ Edite o arquivo `config.ini` conforme descrito na seção abaixo.
 3. O banco de dados e tabelas necessárias serão criados automáticamente
 ```
 
-> O executável compilado fica em `Win32/Debug/Piadas.exe` e pode ser distribuído para outras máquinas Windows sem instalar o Delphi, desde que o SQL Server esteja acessível.
+> O executável compilado fica em `Jokes/Piadas.exe` e pode ser distribuído para outras máquinas Windows sem instalar o Delphi, desde que o SQL Server esteja acessível.
 
 ---
 
 ## ⚙️ Configuração via config.ini
 
-O arquivo `Win32/Debug/config.ini` centraliza todas as configurações de conexão com o banco de dados. Ele é lido automaticamente pelo sistema na inicialização (O banco `master` é apenas a base, ao executar o programa um novo banco é criado para o uso).
+O arquivo `config.ini` centraliza todas as configurações de conexão com o banco de dados. Ele é lido automaticamente pelo sistema na inicialização (O banco `master` é apenas a base, ao executar o programa um novo banco é criado para o uso).
 
-**Localização:** `Win32/Debug/config.ini`
+**Localização:** `Jokes/config.ini`
 
 ```ini
 [DB]
@@ -194,7 +194,7 @@ Password=minhasenha
 ```
 
 > ⚠️ O nó raiz **deve** se chamar `<piadas>` e cada item **deve** se chamar `<piada>`.
-> Valores aceitos para `<classificacao>`: `Livre`, `12+`, `16+`, `18+`
+> Valores aceitos para `<classificacao>`: `Livre`, `10+`, `12+`, `14+`, `16+`, `18+`
 
 ---
 
@@ -226,7 +226,7 @@ Codigo;Piada;Categoria;Tipo;DataCadastro;Classificacao
 - 📥 **Importação em lote via XML** com validação completa e log de registros ignorados
 - 📤 **Exportação para CSV** do conjunto de dados exibido na grade no momento
 - 🚫 **Prevenção de duplicatas** automática na importação (comparação case-insensitive)
-- 🏷️ **Classificação indicativa** gerenciada via lookup: `Livre`, `12+`, `16+`, `18+`
+- 🏷️ **Classificação indicativa** gerenciada via lookup: `Livre`, `10+`, `12+`, `14+`, `16+`, `18+`
 - ⚙️ **Conexão configurável** via arquivo `config.ini`, sem necessidade de recompilar
 - 🗂️ **Interface com abas** separando listagem e manutenção de registros
 - 🎨 **Grade com linhas alternadas** e destaque visual na linha selecionada
