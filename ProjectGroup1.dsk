@@ -1,73 +1,35 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.RegularExpressions.pas',0,1,1,31,12,0,0,,
-File_1=TSourceModule,'C:\Projeto Delphi\uLogin.pas',0,1,47,24,62,0,0,,
-File_2=TSourceModule,'C:\Projeto Delphi\Classes\cAtualizacaoTabelaMSSQL.pas',0,1,278,26,315,0,0,,
-File_3=TSourceModule,'C:\Projeto Desafio\uCadPiadas.pas',0,1,617,60,641,0,0,,
-File_4=TSourceModule,'C:\Projeto Delphi\Processo\uProVenda.pas',0,1,659,31,664,0,0,{{102,0}
-File_5=TSourceModule,'C:\Projeto Delphi\Classes\cFornecedor.pas',0,1,272,63,296,0,0,{{73,0}
-File_6=TSourceModule,'C:\Projeto Desafio\cCadPiadas.pas',0,1,196,19,67,0,0,,
-File_7=TSourceModule,'C:\Projeto Desafio\Tabelas\cAtualizaTabelasSQL.pas',0,1,1,80,85,0,0,,
-File_8=TSourceModule,'C:\Projeto Desafio\Tabelas\cAtualizaDB.pas',0,1,19,116,145,0,0,,
-File_9=TSourceModule,'C:\Projeto Desafio\uCadPiadas.dfm',0,1,1,1,1,0,0,,
-File_10=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas',0,1,17215,56,17226,0,0,,
+File_0=TSourceModule,'C:\Projeto Delphi\Cadastro\uFornecedor.pas',0,1,234,54,232,0,0,,
+File_1=TSourceModule,'C:\Projeto Delphi\Cadastro\uCadCliente.pas',0,1,392,30,402,0,0,,
+File_2=TSourceModule,'C:\Projeto Delphi\Classes\cCadCategoria.pas',0,1,95,14,109,0,0,{{203,0}
+File_3=TSourceModule,'C:\Projeto Delphi\Cadastro\uCadCategoria.pas',0,1,47,1,74,0,0,,
+File_4=TSourceModule,'C:\Projeto Delphi\Classes\cCadProduto.pas',0,1,190,66,198,0,0,{{46,0}
+File_5=TSourceModule,'C:\Projeto Delphi\Cadastro\uCadProduto.pas',0,1,249,119,258,0,0,,{1
+File_6=TSourceModule,'C:\Projeto Delphi\Cadastro\uCadUsuario.pas',0,1,184,30,211,0,0,,{1
+File_7=TSourceModule,'C:\Projeto Delphi\login\uAlterarSenha.pas',0,1,34,30,43,0,0,,
+File_8=TSourceModule,'C:\Projeto Delphi\uPrincipal.pas',0,1,178,1,180,0,0,,
+File_9=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.RegularExpressions.pas',0,1,1,31,12,0,0,,
+File_10=TSourceModule,'C:\Projeto Delphi\uLogin.pas',0,1,47,24,62,0,0,,
+File_11=TSourceModule,'C:\Projeto Delphi\Classes\cAtualizacaoTabelaMSSQL.pas',0,1,278,26,315,0,0,,
+File_12=TSourceModule,'C:\Projeto Delphi\Processo\uProVenda.pas',0,1,659,31,664,0,0,{{102,0}
 
 [Modules]
-Module0=C:\Projeto Delphi\Cadastro\uCadCliente.pas
-Module1=C:\Projeto Delphi\Cadastro\uFornecedor.pas
-Module2=C:\Projeto Delphi\Cadastro\uCadProduto.pas
-Module3=C:\Projeto Delphi\Heranca\uTelaHeranca.pas
-Module4=C:\Projeto Delphi\login\uAlterarSenha.pas
-Module5=C:\Projeto Delphi\Cadastro\uCadUsuario.pas
-Module6=C:\Projeto Delphi\uPrincipal.pas
-Module7=C:\Projeto Delphi\Classes\cCadProduto.pas
-Module8=C:\Projeto Delphi\Classes\cCadCategoria.pas
-Module9=C:\Projeto Delphi\Cadastro\uCadCategoria.pas
-Count=10
+Module0=C:\Projeto Desafio\uCadPiadas.pas
+Module1=C:\Projeto Delphi\Heranca\uTelaHeranca.pas
+Count=2
 EditWindowCount=1
 
-[C:\Projeto Delphi\Cadastro\uCadCliente.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Cadastro\uFornecedor.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Cadastro\uCadProduto.pas]
+[C:\Projeto Desafio\uCadPiadas.pas]
 ModuleType=TSourceModule
 
 [C:\Projeto Delphi\Heranca\uTelaHeranca.pas]
 ModuleType=TSourceModule
 
-[C:\Projeto Delphi\login\uAlterarSenha.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Cadastro\uCadUsuario.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\uPrincipal.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Classes\cCadProduto.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Classes\cCadCategoria.pas]
-ModuleType=TSourceModule
-
-[C:\Projeto Delphi\Cadastro\uCadCategoria.pas]
-ModuleType=TSourceModule
-
 [EditWindow0]
-ViewCount=10
-CurrentEditView=C:\Projeto Delphi\Cadastro\uCadCliente.pas
+ViewCount=2
+CurrentEditView=C:\Projeto Desafio\uCadPiadas.pas
 View0=0
 View1=1
-View2=2
-View3=3
-View4=4
-View5=5
-View6=6
-View7=7
-View8=8
-View9=9
 PercentageSizes=1
 Create=1
 Visible=1
@@ -86,11 +48,11 @@ BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
 LeftPanelSize=1911
 LeftPanelClients=PropertyInspector
-LeftPanelData=00000800010000000000B8180000000000000000000000000000000100000000B81800001100000050726F7065727479496E73706563746F72FFFFFFFF
+LeftPanelData=0000080001000000000000000000000000000000000000000000000100000000000000001100000050726F7065727479496E73706563746F72FFFFFFFF
 RightPanelSize=0
-BottomPanelSize=794
+BottomPanelSize=1536
 BottomPanelClients=MessageView,DockSite1
-BottomPanelData=0000080001020100000009000000446F636B5369746531AF45000000000000021A030000000000000100000000AF4500000F0000004D65737361676556696577466F726DFFFFFFFF
+BottomPanelData=0000080001020100000009000000446F636B5369746531AF450000000000000200060000000000000100000000AF4500000F0000004D65737361676556696577466F726DFFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779A1D00000000000002F806000000000000FFFFFFFF
@@ -99,113 +61,25 @@ TabDockRightClients=DockSite2=0,DockSite4=1
 
 [View0]
 CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\uPrincipal.pas
-CursorX=1
-CursorY=180
-TopLine=178
+Module=C:\Projeto Delphi\Heranca\uTelaHeranca.pas
+CursorX=36
+CursorY=630
+TopLine=608
 LeftCol=1
-Elisions=
+Elisions={{86,0},{89,11},{'OBSERVAÇÕES'}}{{91,0},{372,11},{'FUNÇÕES E PROCEDURES'}}{{374,0},{390,11},{'Métodos Virtuais'}}
 Bookmarks=
-EditViewName=C:\Projeto Delphi\uPrincipal.pas
+EditViewName=Borland.FormDesignerView
 
 [View1]
 CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\login\uAlterarSenha.pas
-CursorX=30
-CursorY=43
-TopLine=34
+Module=C:\Projeto Desafio\uCadPiadas.pas
+CursorX=75
+CursorY=462
+TopLine=450
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=C:\Projeto Delphi\login\uAlterarSenha.pas
-
-[View2]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Cadastro\uCadUsuario.pas
-CursorX=30
-CursorY=211
-TopLine=184
-LeftCol=1
-Elisions=
-Bookmarks={1,289,1}
-EditViewName=C:\Projeto Delphi\Cadastro\uCadUsuario.pas
-
-[View3]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Cadastro\uCadProduto.pas
-CursorX=119
-CursorY=258
-TopLine=249
-LeftCol=1
-Elisions=
-Bookmarks={1,95,1}
-EditViewName=C:\Projeto Delphi\Cadastro\uCadProduto.pas
-
-[View4]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Classes\cCadProduto.pas
-CursorX=66
-CursorY=198
-TopLine=190
-LeftCol=1
-Elisions={{46,0},{64,11},{'Constructor and Destructor'}}
-Bookmarks=
-EditViewName=C:\Projeto Delphi\Classes\cCadProduto.pas
-
-[View5]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Cadastro\uCadCategoria.pas
-CursorX=1
-CursorY=74
-TopLine=47
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Projeto Delphi\Cadastro\uCadCategoria.pas
-
-[View6]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Classes\cCadCategoria.pas
-CursorX=14
-CursorY=109
-TopLine=95
-LeftCol=1
-Elisions={{203,0},{216,11},{'Gets'}}{{218,0},{229,11},{'Sets'}}
-Bookmarks={1,118,1}
-EditViewName=C:\Projeto Delphi\Classes\cCadCategoria.pas
-
-[View7]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Heranca\uTelaHeranca.pas
-CursorX=57
-CursorY=578
-TopLine=564
-LeftCol=1
-Elisions={{86,0},{89,11},{'OBSERVAÇÕES'}}{{91,0},{371,11},{'FUNÇÕES E PROCEDURES'}}{{373,0},{389,11},{'Métodos Virtuais'}}
-Bookmarks=
-EditViewName=C:\Projeto Delphi\Heranca\uTelaHeranca.pas
-
-[View8]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Cadastro\uCadCliente.pas
-CursorX=30
-CursorY=402
-TopLine=392
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=Borland.FormDesignerView
-
-[View9]
-CustomEditViewType=TEditView
-Module=C:\Projeto Delphi\Cadastro\uFornecedor.pas
-CursorX=54
-CursorY=232
-TopLine=234
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=Borland.FormDesignerView
+EditViewName=C:\Projeto Desafio\uCadPiadas.pas
 
 [UndockedDesigner]
 Count=0
@@ -224,11 +98,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=208
 LRDockWidth=13602
 Dockable=1
@@ -287,12 +161,12 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=2013
-Height=7292
+Width=1881
+Height=8125
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=2013
-ClientHeight=7292
+ClientWidth=1881
+ClientHeight=8125
 TBDockHeight=5903
 LRDockWidth=2350
 Dockable=1
@@ -307,12 +181,12 @@ State=0
 Left=0
 Top=18
 Width=10029
-Height=597
+Height=1389
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=10029
-ClientHeight=597
-TBDockHeight=597
+ClientHeight=1389
+TBDockHeight=1389
 LRDockWidth=2767
 Dockable=1
 StayOnTop=0
@@ -383,21 +257,16 @@ State=0
 Left=0
 Top=18
 Width=1911
-Height=7708
+Height=6917
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1911
-ClientHeight=7708
+ClientHeight=6917
 TBDockHeight=9014
 LRDockWidth=1911
 Dockable=1
 StayOnTop=0
-SplitPos=112
-
-[PropInspDesignerSelection]
-ArrangeBy=Name
-SelectedItem=Action,CustomHint
-ExpandedItems=Anchors=0,BorderIcons=0,Constraints=0,Font=0,LiveBindings=0,"LiveBindings Designer=0",Margins=0,StyleElements=0,Touch=0,BevelEdges=0,EditLabel=0,CalColors=0
+SplitPos=111
 
 [ClassBrowserTool]
 PercentageSizes=1
@@ -525,11 +394,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=417
 LRDockWidth=4949
 Dockable=1
@@ -544,11 +413,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=208
 LRDockWidth=7408
 Dockable=1
@@ -567,11 +436,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=1542
 LRDockWidth=3485
 Dockable=1
@@ -586,11 +455,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=2069
 LRDockWidth=3485
 Dockable=1
@@ -727,11 +596,11 @@ State=0
 Left=0
 Top=0
 Width=3821
-Height=958
+Height=1042
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=958
+ClientHeight=1042
 TBDockHeight=1542
 LRDockWidth=8741
 Dockable=1
@@ -839,12 +708,12 @@ State=0
 Left=685
 Top=18
 Width=3821
-Height=1306
+Height=1389
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3821
-ClientHeight=1306
-TBDockHeight=1306
+ClientHeight=1389
+TBDockHeight=1389
 LRDockWidth=3821
 Dockable=1
 StayOnTop=0
@@ -860,16 +729,16 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=3
-Top=23
-Width=2013
-Height=7639
+Left=1368
+Top=82
+Width=1999
+Height=9014
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=2013
-ClientHeight=7639
+ClientWidth=1881
+ClientHeight=8472
 TBDockHeight=9014
-LRDockWidth=2013
+LRDockWidth=1999
 Dockable=1
 StayOnTop=0
 TabPosition=1
@@ -925,5 +794,5 @@ ActiveTabID=ToolForm
 TabDockClients=ToolForm,TemplateView
 
 [ActiveProject]
-ActiveProject=1
+ActiveProject=2
 

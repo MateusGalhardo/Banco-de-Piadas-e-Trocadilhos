@@ -141,6 +141,10 @@ end;
 
 procedure TcadPiadas.btnAlterarClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   if oPiadas.Selecionar(QryPiadas.FieldByName('piadaId').AsInteger) then begin
      edtPiadaId.Text:=IntToStr(oPiadas.piadaId);
 
@@ -155,6 +159,7 @@ begin
   end;
 
   //desativa os botões e altera o estado do cadastro
+  tsManutencao.TabVisible := True;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
     EstadoDoCadastro:=ecAlterar;
     btnCancelar.Font.Color := clBlack;
@@ -162,6 +167,10 @@ end;
 
 procedure TcadPiadas.btnApagarClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   Apagar;
   QryPiadas.Close;  //limpa os campos e atualiza a query
   QryPiadas.Open;
@@ -173,6 +182,7 @@ begin
   ControlarIndiceTab(pgcPrincipal, 0);
   EstadoDoCadastro:=ecNenhum;
   LimparEdits; //define os botões, volta pra pagina de listagem, define o estado do cadastro como nenhum e limpa os campos
+  tsManutencao.TabVisible := False;
 end;
 
 procedure TcadPiadas.btnExportarClick(Sender: TObject);
@@ -217,11 +227,11 @@ end;
 
 procedure TcadPiadas.btnGravarClick(Sender: TObject);
 begin
-  if cbbTipo.Text= '' then begin
+  if Trim(cbbTipo.Text)= '' then begin
     ShowMessage('Insira o Tipo da Piada/Trocadilho');
     Exit;
   end
-  else if cbbCategoria.Text= '' then begin
+  else if Trim(cbbCategoria.Text)= '' then begin
     ShowMessage('Insira a Categoria');         //verificações para impedir que o usuário deixe campos vazios
     Exit;
   end
@@ -229,7 +239,7 @@ begin
     ShowMessage('Insira a Classificação Indicativa');
     Exit;
   end
-  else if edtPiada.Text= '' then begin
+  else if Trim(edtPiada.Text)= '' then begin
     ShowMessage('Insira sua Piada');
     Exit;
   end;
@@ -243,6 +253,7 @@ begin
   AdicionarItemCombo(cbbCategoria, cbbCategoria.Text);
   AdicionarItemCombo(cbbTipo, cbbTipo.Text);
 
+  tsManutencao.TabVisible := False;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal, True);
   ControlarIndiceTab(pgcPrincipal, 0);
 
@@ -451,6 +462,7 @@ end;
 
 procedure TcadPiadas.btnNovoClick(Sender: TObject);
 begin
+  tsManutencao.TabVisible := True;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
   EstadoDoCadastro:=ecInserir; //define os botões ativos, o estado do cadastro como inserir e limpa os campos
   LimparEdits;
@@ -635,6 +647,8 @@ begin
    DTMPiadas.conexaoPiadas.Params.Values['Database'] := 'master';
    DTMPiadas.conexaoPiadas.Connected := True; //antes de conectar no db correto, conecta no master para padronizar
 
+   dtmPiadas.ConexaoPiadas.Open;
+
    DB := TAtualizaDBSQL.Create(DTMPiadas.conexaoPiadas);
   try
     DB.AtualizaDB;
@@ -657,6 +671,7 @@ begin
   btnCancelar.Font.Color  := $9D9D9D;  // cinza
   btnSair.Font.Color      := $002222B2;
 
+  tsManutencao.TabVisible := False;
   CarregarCombos;
 
   ShowHint := True;
@@ -717,6 +732,10 @@ end;
 
 procedure TcadPiadas.grdPiadasDblClick(Sender: TObject);
 begin
+  if f1QryPiadaspiadaId.AsInteger = 0 then begin
+    Exit;
+  end;
+
   btnAlterar.Click; //double click tem o mesmo efeito de clicar no botão alterar
   btnCancelar.font.color:= clBlack
 end;
@@ -856,7 +875,7 @@ end;
 
 procedure TcadPiadas.tsManutencaoShow(Sender: TObject);
 begin
-  cbbTipo.SetFocus;
+  cbbCategoria.SetFocus;
   lbl7.Left := -lbl7.Width;
   tmr1.Enabled := True;
   CarregarCombos;

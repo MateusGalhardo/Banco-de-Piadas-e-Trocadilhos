@@ -404,7 +404,7 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 2
           TextHint = 'Tipo'
         end
         object edtPesCategoria: TEdit
@@ -423,7 +423,7 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 2
+          TabOrder = 1
           TextHint = 'Categoria'
         end
         object btnPesquisar: TPngBitBtn
@@ -604,8 +604,8 @@ object cadPiadas: TcadPiadas
         ParentBackground = False
         TabOrder = 1
         object lbl1: TLabel
-          Left = 337
-          Top = 128
+          Left = 557
+          Top = 127
           Width = 30
           Height = 20
           Caption = 'Tipo'
@@ -617,8 +617,8 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl2: TLabel
-          Left = 558
-          Top = 128
+          Left = 336
+          Top = 127
           Width = 65
           Height = 20
           Caption = 'Categoria'
@@ -630,8 +630,8 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl3: TLabel
-          Left = 768
-          Top = 128
+          Left = 767
+          Top = 127
           Width = 85
           Height = 20
           Caption = 'Classifica'#231#227'o'
@@ -643,8 +643,8 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object lbl4: TLabel
-          Left = 484
-          Top = 197
+          Left = 483
+          Top = 196
           Width = 169
           Height = 20
           Caption = 'Escreva sua piada abaixo:'
@@ -689,8 +689,8 @@ object cadPiadas: TcadPiadas
           ParentFont = False
         end
         object cbbTipo: TComboBox
-          Left = 558
-          Top = 146
+          Left = 557
+          Top = 145
           Width = 192
           Height = 28
           Color = 2039074
@@ -702,13 +702,13 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 0
+          TabOrder = 1
           OnKeyDown = cbbTipoKeyDown
           OnKeyPress = cbbTipoKeyPress
         end
         object cbbCategoria: TComboBox
-          Left = 337
-          Top = 146
+          Left = 336
+          Top = 145
           Width = 203
           Height = 28
           Color = 2039074
@@ -720,7 +720,7 @@ object cadPiadas: TcadPiadas
           Font.Style = []
           ParentCtl3D = False
           ParentFont = False
-          TabOrder = 1
+          TabOrder = 0
           OnKeyDown = cbbCategoriaKeyDown
           OnKeyPress = cbbCategoriaKeyPress
         end
@@ -758,7 +758,7 @@ object cadPiadas: TcadPiadas
         TabOrder = 0
       end
       object lkpClassificacao: TDBLookupComboBox
-        Left = 768
+        Left = 767
         Top = 146
         Width = 145
         Height = 26
@@ -779,7 +779,7 @@ object cadPiadas: TcadPiadas
         TabOrder = 2
       end
       object edtPiada: TMemo
-        Left = 484
+        Left = 483
         Top = 216
         Width = 357
         Height = 113
@@ -889,6 +889,8 @@ object cadPiadas: TcadPiadas
     Top = 108
   end
   object dlgAbrirPasta: TOpenDialog
+    DefaultExt = 'xml'
+    Filter = 'Arquivos XML (*.xml)|*.xml'
     Left = 244
     Top = 8
   end

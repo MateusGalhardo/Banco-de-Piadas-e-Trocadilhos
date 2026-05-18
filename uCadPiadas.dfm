@@ -332,6 +332,10 @@ object cadPiadas: TcadPiadas
     TabOrder = 1
     object tsListagem: TTabSheet
       Caption = 'Listagem'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnlListagemTopo: TPanel
         Left = 0
         Top = 0
@@ -594,6 +598,10 @@ object cadPiadas: TcadPiadas
       ImageIndex = 1
       ParentFont = False
       OnShow = tsManutencaoShow
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnl1: TPanel
         Left = 0
         Top = 0
@@ -730,7 +738,7 @@ object cadPiadas: TcadPiadas
         Left = 18
         Top = 70
         Width = 121
-        Height = 26
+        Height = 19
         Color = 2039074
         Ctl3D = False
         EditLabel.Width = 103

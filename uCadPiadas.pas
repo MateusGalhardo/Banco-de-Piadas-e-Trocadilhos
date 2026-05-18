@@ -159,6 +159,7 @@ begin
   end;
 
   //desativa os botões e altera o estado do cadastro
+  tsManutencao.TabVisible := True;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
     EstadoDoCadastro:=ecAlterar;
     btnCancelar.Font.Color := clBlack;
@@ -181,6 +182,7 @@ begin
   ControlarIndiceTab(pgcPrincipal, 0);
   EstadoDoCadastro:=ecNenhum;
   LimparEdits; //define os botões, volta pra pagina de listagem, define o estado do cadastro como nenhum e limpa os campos
+  tsManutencao.TabVisible := False;
 end;
 
 procedure TcadPiadas.btnExportarClick(Sender: TObject);
@@ -251,6 +253,7 @@ begin
   AdicionarItemCombo(cbbCategoria, cbbCategoria.Text);
   AdicionarItemCombo(cbbTipo, cbbTipo.Text);
 
+  tsManutencao.TabVisible := False;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal, True);
   ControlarIndiceTab(pgcPrincipal, 0);
 
@@ -455,10 +458,13 @@ begin
   mskPesquisar.Text:= '';
   edtPesTipo.text:= '';       //limpa os campos de pesquisa
   edtPesCategoria.text:= '';
+
+  btnPesquisar.Click; //volta a grid original com uma pesquisa vazia
 end;
 
 procedure TcadPiadas.btnNovoClick(Sender: TObject);
 begin
+  tsManutencao.TabVisible := True;
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar, pgcPrincipal,False);
   EstadoDoCadastro:=ecInserir; //define os botões ativos, o estado do cadastro como inserir e limpa os campos
   LimparEdits;
@@ -667,6 +673,7 @@ begin
   btnCancelar.Font.Color  := $9D9D9D;  // cinza
   btnSair.Font.Color      := $002222B2;
 
+  tsManutencao.TabVisible := False;
   CarregarCombos;
 
   ShowHint := True;
@@ -862,7 +869,7 @@ procedure TcadPiadas.tmr1Timer(Sender: TObject);
 begin
    Sleep(30);
   lbl7.Left := lbl7.Left + 5;
-
+                                     //puxa o trollface
   // posição final
   if lbl7.Left >= 20 then
     tmr1.Enabled := False;
